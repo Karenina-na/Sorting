@@ -29,8 +29,8 @@ namespace structure {
                 this->next = nullptr;
             }
             ~BidirectionalLinkListNode() {
-                delete prev;
-                delete next;
+                this->prev = nullptr;
+                this->next = nullptr;
             }
         };
 
@@ -94,13 +94,13 @@ T structure::BidirectionalLinkList<T>::getData(int index){
     }
     // 双向查找
     if (index < length / 2) {
-        BidirectionalLinkListNode<T> *node = head->next;
+        BidirectionalLinkListNode<T> *node = head;
         for (int i = 0; i < index; i++) {
             node = node->next;
         }
         return node->data;
     } else {
-        BidirectionalLinkListNode<T> *node = tail->prev;
+        BidirectionalLinkListNode<T> *node = tail;
         for (int i = length - 1; i > index; i--) {
             node = node->prev;
         }
@@ -181,12 +181,12 @@ void structure::BidirectionalLinkList<T>::insertAt(int index, T data){
     BidirectionalLinkListNode<T> *tmp = nullptr;
     // 双向查找
     if (index < length / 2) {
-        tmp = head->next;
+        tmp = head;
         for (int i = 0; i < index; i++) {
             tmp = tmp->next;
         }
     } else {
-        tmp = tail->prev;
+        tmp = tail;
         for (int i = length - 1; i > index; i--) {
             tmp = tmp->prev;
         }
@@ -207,7 +207,6 @@ void structure::BidirectionalLinkList<T>::deleteAtHead(){
     }
     if (length == 1) {
         delete head;
-        delete tail;
         head = nullptr;
         tail = nullptr;
         length = 0;
@@ -228,7 +227,6 @@ void structure::BidirectionalLinkList<T>::deleteAtTail(){
     }
     if (length == 1) {
         delete head;
-        delete tail;
         head = nullptr;
         tail = nullptr;
         length = 0;
@@ -261,12 +259,12 @@ void structure::BidirectionalLinkList<T>::deleteAt(int index){
     BidirectionalLinkListNode<T> *tmp = nullptr;
     // 双向查找
     if (index < length / 2) {
-        tmp = head->next;
+        tmp = head;
         for (int i = 0; i < index; i++) {
             tmp = tmp->next;
         }
     } else {
-        tmp = tail->prev;
+        tmp = tail;
         for (int i = length - 1; i > index; i--) {
             tmp = tmp->prev;
         }
@@ -316,7 +314,7 @@ void structure::BidirectionalLinkList<T>::print(){
         std::cout << head->data << std::endl;
         return;
     }
-    BidirectionalLinkListNode<T> *node = head->next;
+    BidirectionalLinkListNode<T> *node = head;
     while (node != tail) {
         std::cout << node->data << " ";
         node = node->next;
