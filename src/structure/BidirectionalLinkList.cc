@@ -2,11 +2,67 @@
 // Created by Karenina-na on 2023/9/17.
 //
 
-#include "DataStructure.h"
+#include <iostream>
+
+#ifndef SORTING_ALGORITHM_INTERFACE_FRAMEWORK_BIDIRECTIONALLINKLIST_H
+#define SORTING_ALGORITHM_INTERFACE_FRAMEWORK_BIDIRECTIONALLINKLIST_H
+
+namespace structure {
+
+    // 双向链表
+    template<typename T>
+    class BidirectionalLinkList {
+    private:
+        // 链表节点
+        template<typename NT>
+        struct BidirectionalLinkListNode {
+            NT data;
+            BidirectionalLinkListNode<NT> *prev;
+            BidirectionalLinkListNode<NT> *next;
+            explicit BidirectionalLinkListNode(T data) {
+                this->data = data;
+                this->prev = nullptr;
+                this->next = nullptr;
+            }
+            BidirectionalLinkListNode() {
+                this->prev = nullptr;
+                this->next = nullptr;
+            }
+            ~BidirectionalLinkListNode() {
+                delete prev;
+                delete next;
+            }
+        };
+
+        // 头尾节点
+        BidirectionalLinkListNode<T> *head;
+        BidirectionalLinkListNode<T> *tail;
+        // 链表长度
+        int length;
+
+    public:
+        BidirectionalLinkList();
+        ~BidirectionalLinkList();
+
+        int getLength();
+        T getData(int index);
+
+        void foreach(void (*callback)(T));
+        void insertAtHead(T data);
+        void insertAtTail(T data);
+        void insertAt(int index, T data);
+        void deleteAtHead();
+        void deleteAtTail();
+        void deleteAt(int index);
+        void clear();
+        void print();
+    };
+
+} // structure
 
 // 构造函数
 template<typename T>
-DataStructure::BidirectionalLinkList<T>::BidirectionalLinkList() {
+structure::BidirectionalLinkList<T>::BidirectionalLinkList() {
     head = nullptr;
     tail = nullptr;
     length = 0;
@@ -14,19 +70,19 @@ DataStructure::BidirectionalLinkList<T>::BidirectionalLinkList() {
 
 // 析构函数
 template<typename T>
-DataStructure::BidirectionalLinkList<T>::~BidirectionalLinkList() {
+structure::BidirectionalLinkList<T>::~BidirectionalLinkList() {
     clear();
 }
 
 // 获取链表长度
 template<typename T>
-int DataStructure::BidirectionalLinkList<T>::getLength() {
+int structure::BidirectionalLinkList<T>::getLength() {
     return length;
 }
 
 // 获取链表指定位置的节点的数据
 template<typename T>
-T DataStructure::BidirectionalLinkList<T>::getData(int index){
+T structure::BidirectionalLinkList<T>::getData(int index){
     if (index < 0 || index >= length) {
         throw "Index out of range.";
     }
@@ -54,7 +110,7 @@ T DataStructure::BidirectionalLinkList<T>::getData(int index){
 
 // 遍历操作链表
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::foreach(void (*callback)(T)){
+void structure::BidirectionalLinkList<T>::foreach(void (*callback)(T)){
     if (length == 0){
         throw "Empty list.";
     }
@@ -62,7 +118,7 @@ void DataStructure::BidirectionalLinkList<T>::foreach(void (*callback)(T)){
         callback(head->data);
         return;
     }
-    DataStructure::BidirectionalLinkList<T>::BidirectionalLinkListNode<T> *node = head->next;
+    BidirectionalLinkList<T>::BidirectionalLinkListNode<T> *node = head->next;
     while (node != tail) {
         callback(node->data);
         node = node->next;
@@ -72,14 +128,14 @@ void DataStructure::BidirectionalLinkList<T>::foreach(void (*callback)(T)){
 
 // 在链表头部插入节点
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::insertAtHead(T data){
+void structure::BidirectionalLinkList<T>::insertAtHead(T data){
     if (length == 0) {
         head = new BidirectionalLinkListNode<T>(data);
         tail = head;
         length++;
         return;
     }
-    DataStructure::BidirectionalLinkList<T>::BidirectionalLinkListNode<T> *node = new BidirectionalLinkListNode<T>(data);
+    auto *node = new BidirectionalLinkListNode<T>(data);
     node->next = head;
     head->prev = node;
     head = node;
@@ -88,14 +144,14 @@ void DataStructure::BidirectionalLinkList<T>::insertAtHead(T data){
 
 // 在链表尾部插入节点
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::insertAtTail(T data){
+void structure::BidirectionalLinkList<T>::insertAtTail(T data){
     if (length == 0) {
         head = new BidirectionalLinkListNode<T>(data);
         tail = head;
         length++;
         return;
     }
-    DataStructure::BidirectionalLinkList<T>::BidirectionalLinkListNode<T> *node = new BidirectionalLinkListNode<T>(data);
+    auto *node = new BidirectionalLinkListNode<T>(data);
     node->prev = tail;
     tail->next = node;
     tail = node;
@@ -104,7 +160,7 @@ void DataStructure::BidirectionalLinkList<T>::insertAtTail(T data){
 
 // 在链表指定位置插入节点
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::insertAt(int index, T data){
+void structure::BidirectionalLinkList<T>::insertAt(int index, T data){
     if (index < 0 || index > length) {
         throw "Index out of range.";
     }
@@ -121,15 +177,16 @@ void DataStructure::BidirectionalLinkList<T>::insertAt(int index, T data){
     }else if (length == 1 && index != 0) {
         throw "Index out of range.";
     }
-    DataStructure::BidirectionalLinkList<T>::BidirectionalLinkListNode<T> *node = new BidirectionalLinkListNode<T>(data);
+    auto *node = new BidirectionalLinkListNode<T>(data);
+    BidirectionalLinkListNode<T> *tmp = nullptr;
     // 双向查找
     if (index < length / 2) {
-        BidirectionalLinkListNode<T> *tmp = head->next;
+        tmp = head->next;
         for (int i = 0; i < index; i++) {
             tmp = tmp->next;
         }
     } else {
-        BidirectionalLinkListNode<T> *tmp = tail->prev;
+        tmp = tail->prev;
         for (int i = length - 1; i > index; i--) {
             tmp = tmp->prev;
         }
@@ -144,7 +201,7 @@ void DataStructure::BidirectionalLinkList<T>::insertAt(int index, T data){
 
 // 删除链表头部节点
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::deleteAtHead(){
+void structure::BidirectionalLinkList<T>::deleteAtHead(){
     if (length == 0) {
         throw "Empty list.";
     }
@@ -165,7 +222,7 @@ void DataStructure::BidirectionalLinkList<T>::deleteAtHead(){
 
 // 删除链表尾部节点
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::deleteAtTail(){
+void structure::BidirectionalLinkList<T>::deleteAtTail(){
     if (length == 0) {
         throw "Empty list.";
     }
@@ -186,7 +243,7 @@ void DataStructure::BidirectionalLinkList<T>::deleteAtTail(){
 
 // 删除链表指定位置的节点
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::deleteAt(int index){
+void structure::BidirectionalLinkList<T>::deleteAt(int index){
     if (index < 0 || index >= length) {
         throw "Index out of range.";
     }
@@ -201,14 +258,15 @@ void DataStructure::BidirectionalLinkList<T>::deleteAt(int index){
         deleteAtTail();
         return;
     }
+    BidirectionalLinkListNode<T> *tmp = nullptr;
     // 双向查找
     if (index < length / 2) {
-        BidirectionalLinkListNode<T> *tmp = head->next;
+        tmp = head->next;
         for (int i = 0; i < index; i++) {
             tmp = tmp->next;
         }
     } else {
-        BidirectionalLinkListNode<T> *tmp = tail->prev;
+        tmp = tail->prev;
         for (int i = length - 1; i > index; i--) {
             tmp = tmp->prev;
         }
@@ -223,7 +281,7 @@ void DataStructure::BidirectionalLinkList<T>::deleteAt(int index){
 
 // 清空链表
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::clear(){
+void structure::BidirectionalLinkList<T>::clear(){
     if (length == 0) {
         return;
     }
@@ -249,8 +307,8 @@ void DataStructure::BidirectionalLinkList<T>::clear(){
 
 // 打印链表
 template<typename T>
-void DataStructure::BidirectionalLinkList<T>::print(){
-if (length == 0) {
+void structure::BidirectionalLinkList<T>::print(){
+    if (length == 0) {
         std::cout << "Empty list." << std::endl;
         return;
     }
@@ -265,3 +323,5 @@ if (length == 0) {
     }
     std::cout << node->data << std::endl;
 }
+
+#endif //SORTING_ALGORITHM_INTERFACE_FRAMEWORK_BIDIRECTIONALLINKLIST_H

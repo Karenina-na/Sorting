@@ -34,12 +34,38 @@ Our code repository supports direct downloading and usage, but we recommend usin
 3.Run the following command:
 
 ```bash
-$ git clone git@github.com:Karenina-na/Deep-Learning-Framework.git
+git clone git@github.com:Karenina-na/Deep-Learning-Framework.git
 ```
 
 4.Wait for the cloning process to complete. Once finished, you will have a local copy of the code repository on your machine.
 
 5.After cloning the code repository, you can use the `cd` command to navigate to the specific folder of the model and run the code.
+
+6.Build the project
+
+windows - MinGW - make
+
+```terminal
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" ..
+cmake --build .
+```
+
+windows - ninja
+
+```terminal
+mkdir build
+cd build
+cmake -G "Ninja" ..
+cmake --build .
+```
+
+7.Run by double-clicking the executable file in the build directory.
+
+```terminal
+./bin/Sorting-Algorithm-Interface-Framework
+```
 
 ## 💻 Technology Stack
 
