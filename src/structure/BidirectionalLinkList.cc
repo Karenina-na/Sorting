@@ -9,36 +9,81 @@
 
 namespace structure {
 
+    // 链表节点
+    template<typename T>
+    class BidirectionalLinkListNode {
+    public:
+
+        T data;
+        BidirectionalLinkListNode<T> *prev;
+        BidirectionalLinkListNode<T> *next;
+
+        explicit BidirectionalLinkListNode(T data) {
+            this->data = data;
+            this->prev = nullptr;
+            this->next = nullptr;
+        }
+        BidirectionalLinkListNode() {
+            this->prev = nullptr;
+            this->next = nullptr;
+        }
+        ~BidirectionalLinkListNode() {
+            this->prev = nullptr;
+            this->next = nullptr;
+        }
+
+        // 重载=
+        BidirectionalLinkListNode<T> &operator=(T Data) {
+            this->data = Data;
+            return *this;
+        }
+        // 重载=
+        BidirectionalLinkListNode<T> &operator=(const BidirectionalLinkListNode<T> &node) {
+            if (this == &node) {
+                return *this;
+            }
+            this->data = node.data;
+            return *this;
+        }
+        // 重载<<
+        friend std::ostream &operator<<(std::ostream &os, const BidirectionalLinkListNode<T> &node) {
+            os << node.data;
+            return os;
+        }
+        // 重载>>
+        friend std::istream &operator>>(std::istream &is, BidirectionalLinkListNode<T> &node) {
+            is >> node.data;
+            return is;
+        }
+        // 重载==
+        friend bool operator==(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return node1.data == node2.data;
+        }
+        // 重载!=
+        friend bool operator!=(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return node1.data != node2.data;
+        }
+        // 重载<
+        friend bool operator<(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return node1.data < node2.data;
+        }
+        // 重载>
+        friend bool operator>(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return node1.data > node2.data;
+        }
+        // 重载<=
+        friend bool operator<=(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return node1.data <= node2.data;
+        }
+        // 重载>=
+        friend bool operator>=(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return node1.data >= node2.data;
+        }
+    };
+
     // 双向链表
     template<typename T>
     class BidirectionalLinkList {
-    private:
-        // 链表节点
-        template<typename NT>
-        struct BidirectionalLinkListNode {
-            NT data;
-            BidirectionalLinkListNode<NT> *prev;
-            BidirectionalLinkListNode<NT> *next;
-            explicit BidirectionalLinkListNode(T data) {
-                this->data = data;
-                this->prev = nullptr;
-                this->next = nullptr;
-            }
-            BidirectionalLinkListNode() {
-                this->prev = nullptr;
-                this->next = nullptr;
-            }
-            ~BidirectionalLinkListNode() {
-                this->prev = nullptr;
-                this->next = nullptr;
-            }
-        };
-
-        // 头尾节点
-        BidirectionalLinkListNode<T> *head;
-        BidirectionalLinkListNode<T> *tail;
-        // 链表长度
-        int length;
 
     public:
         BidirectionalLinkList();
@@ -46,7 +91,6 @@ namespace structure {
 
         int size();
         T getData(int index);
-
         void forEach(void (*callback)(T));
         void insertAtHead(T data);
         void insertAtTail(T data);
@@ -55,16 +99,45 @@ namespace structure {
         void deleteAtTail();
         void deleteAt(int index);
         void set(int index, T data);
+        bool empty();
+        BidirectionalLinkList<T>* copy();
         void clear();
         void print();
 
         // 重载[]运算符
-        T operator[](int index) {
-            return getData(index);
+        BidirectionalLinkListNode<T>& operator[](int index) {
+            // 重载[]运算符，使得可以通过list[index]的方式访问链表
+            if (index < 0 || index >= length) {
+                throw "Index out of range.";
+            }
+            if (length == 0) {
+                throw "Empty list.";
+            }
+            if (index == 0) {
+                return *head;
+            }
+            // 双向查找
+            if (index < length / 2) {
+                BidirectionalLinkListNode<T> *node = head;
+                for (int i = 0; i < index; i++) {
+                    node = node->next;
+                }
+                return *node;
+            } else {
+                BidirectionalLinkListNode<T> *node = tail;
+                for (int i = length - 1; i > index; i--) {
+                    node = node->prev;
+                }
+                return *node;
+            }
         }
 
-        // 重载=运算符
-
+    private:
+        // 头尾节点
+        BidirectionalLinkListNode<T> *head;
+        BidirectionalLinkListNode<T> *tail;
+        // 链表长度
+        int length;
     };
 
 } // structure
@@ -127,7 +200,7 @@ void structure::BidirectionalLinkList<T>::forEach(void (*callback)(T)){
         callback(head->data);
         return;
     }
-    BidirectionalLinkList<T>::BidirectionalLinkListNode<T> *node = head->next;
+    BidirectionalLinkListNode<T> *node = head->next;
     while (node != tail) {
         callback(node->data);
         node = node->next;
@@ -319,6 +392,28 @@ void structure::BidirectionalLinkList<T>::set(int index, T data){
     tmp->data = data;
 }
 
+// 判断链表是否为空
+template<typename T>
+bool structure::BidirectionalLinkList<T>::empty(){
+    return length == 0;
+}
+
+// 拷贝链表
+template<typename T>
+structure::BidirectionalLinkList<T>* structure::BidirectionalLinkList<T>::copy(){
+    if (length == 0) {
+        throw "Empty list.";
+    }
+    auto *list = new BidirectionalLinkList<T>();
+    BidirectionalLinkListNode<T> *node = head;
+    while (node != tail) {
+        list->insertAtTail(node->data);
+        node = node->next;
+    }
+    list->insertAtTail(node->data);
+    return list;
+}
+
 // 清空链表
 template<typename T>
 void structure::BidirectionalLinkList<T>::clear(){
@@ -326,7 +421,6 @@ void structure::BidirectionalLinkList<T>::clear(){
         return;
     }
     if (length == 1) {
-        delete head;
         delete tail;
         head = nullptr;
         tail = nullptr;
