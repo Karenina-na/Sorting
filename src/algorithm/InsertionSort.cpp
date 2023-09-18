@@ -5,6 +5,5 @@
 
 // 插入排序
 template<typename T>
-void algorithm::Algorithm::insertionSort(T *arr, bool (*compare)(T, T)) {
-
+void algorithm::Algorithm<T>::insertionSort(T *arr, bool (*compare)(T, T)) {
 }

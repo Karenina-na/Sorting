@@ -5,7 +5,7 @@
 
 // 冒泡排序
 template<typename T>
-void algorithm::Algorithm::bubbleSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::bubbleSort(T *arr, bool (*compare)(T, T)) {
 
 }
 

@@ -5,6 +5,6 @@
 
 // 希尔排序
 template<typename T>
-void algorithm::Algorithm::shellSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::shellSort(T *arr, bool (*compare)(T, T)) {
 
 }

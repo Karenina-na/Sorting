@@ -5,6 +5,6 @@
 
 // 归并排序
 template<typename T>
-void algorithm::Algorithm::mergeSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::mergeSort(T *arr, bool (*compare)(T, T)) {
 
 }

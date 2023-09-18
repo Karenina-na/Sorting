@@ -19,30 +19,23 @@ namespace algorithm {
         }
     };
 
+    template<typename T>
     class Algorithm {
     public:
-        template<typename T>
         static void insertionSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void bubbleSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void selectionSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void shellSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void quickSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void heapSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void radixSort(T *arr, bool (*compare)(T, T));
 
-        template<typename T>
         static void mergeSort(T *arr, bool (*compare)(T, T));
 
         const static char* demo();

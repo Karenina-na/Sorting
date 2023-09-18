@@ -5,6 +5,6 @@
 
 // 堆排序
 template<typename T>
-void algorithm::Algorithm::heapSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::heapSort(T *arr, bool (*compare)(T, T)) {
 
 }

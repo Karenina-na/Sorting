@@ -5,6 +5,6 @@
 
 // 基数排序
 template<typename T>
-void algorithm::Algorithm::radixSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::radixSort(T *arr, bool (*compare)(T, T)) {
 
 }

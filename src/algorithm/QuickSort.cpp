@@ -5,6 +5,6 @@
 
 // 快速排序
 template<typename T>
-void algorithm::Algorithm::quickSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::quickSort(T *arr, bool (*compare)(T, T)) {
 
 }

@@ -5,6 +5,6 @@
 
 // 选择排序
 template<typename T>
-void algorithm::Algorithm::selectionSort(T *arr, bool (*compare)(T, T)) {
+void algorithm::Algorithm<T>::selectionSort(T *arr, bool (*compare)(T, T)) {
 
 }
