@@ -54,8 +54,17 @@ namespace structure {
         void deleteAtHead();
         void deleteAtTail();
         void deleteAt(int index);
+        void set(int index, T data);
         void clear();
         void print();
+
+        // 重载[]运算符
+        T operator[](int index) {
+            return getData(index);
+        }
+
+        // 重载=运算符
+
     };
 
 } // structure
@@ -275,6 +284,39 @@ void structure::BidirectionalLinkList<T>::deleteAt(int index){
     tmp->next->prev = node;
     delete tmp;
     length--;
+}
+
+// 修改链表指定位置的节点的数据
+template<typename T>
+void structure::BidirectionalLinkList<T>::set(int index, T data){
+    if (index < 0 || index >= length) {
+        throw "Index out of range.";
+    }
+    if (length == 0) {
+        throw "Empty list.";
+    }
+    if (index == 0) {
+        head->data = data;
+        return;
+    }
+    if (index == length - 1) {
+        tail->data = data;
+        return;
+    }
+    BidirectionalLinkListNode<T> *tmp = nullptr;
+    // 双向查找
+    if (index < length / 2) {
+        tmp = head;
+        for (int i = 0; i < index; i++) {
+            tmp = tmp->next;
+        }
+    } else {
+        tmp = tail;
+        for (int i = length - 1; i > index; i--) {
+            tmp = tmp->prev;
+        }
+    }
+    tmp->data = data;
 }
 
 // 清空链表
