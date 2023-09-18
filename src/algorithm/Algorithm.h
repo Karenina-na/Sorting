@@ -30,6 +30,7 @@ namespace algorithm {
 
         static void createHeap(T& arr, int size, bool (*compare)(NT, NT));
 
+        static void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT));
     public:
         static void insertionSort(T &arr, bool (*compare)(NT, NT));
 

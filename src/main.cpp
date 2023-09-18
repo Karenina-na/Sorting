@@ -90,6 +90,16 @@ void test(structure::BidirectionalLinkList<int>* list){
     algorithm::Algorithm<structure::BidirectionalLinkList<int>,
             structure::BidirectionalLinkListNode<int>>::radixSort(*l, algorithm::Compare::less);
     l->print();
+    std::cout<<std::endl;
+
+    l = list->copy();
+    std::cout<<"merge sort: "<<std::endl;
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
+            structure::BidirectionalLinkListNode<int>>::mergeSort(*l, algorithm::Compare::greater);
+    l->print();
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
+            structure::BidirectionalLinkListNode<int>>::mergeSort(*l, algorithm::Compare::less);
+    l->print();
 }
 
 int main(int argc, char *argv[]) {
