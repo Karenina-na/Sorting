@@ -4,7 +4,7 @@
 #include "Algorithm.h"
 
 // 快速排序
-template<typename T>
-void algorithm::Algorithm<T>::quickSort(T *arr, bool (*compare)(T, T)) {
+template<typename T, typename NT>
+void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT)) {
 
 }

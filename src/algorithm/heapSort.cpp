@@ -4,7 +4,7 @@
 #include "Algorithm.h"
 
 // 堆排序
-template<typename T>
-void algorithm::Algorithm<T>::heapSort(T *arr, bool (*compare)(T, T)) {
+template<typename T, typename NT>
+void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT)) {
 
 }

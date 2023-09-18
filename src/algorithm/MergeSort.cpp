@@ -4,7 +4,7 @@
 #include "Algorithm.h"
 
 // 归并排序
-template<typename T>
-void algorithm::Algorithm<T>::mergeSort(T *arr, bool (*compare)(T, T)) {
+template<typename T, typename NT>
+void algorithm::Algorithm<T, NT>::mergeSort(T &arr, bool (*compare)(NT, NT)) {
 
 }

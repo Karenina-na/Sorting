@@ -4,8 +4,8 @@
 #include "algorithm.h"
 
 // 冒泡排序
-template<typename T>
-void algorithm::Algorithm<T>::bubbleSort(T *arr, bool (*compare)(T, T)) {
+template<typename T, typename NT>
+void algorithm::Algorithm<T, NT>::bubbleSort(T &arr, bool (*compare)(NT, NT)) {
 
 }
 

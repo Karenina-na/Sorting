@@ -4,7 +4,7 @@
 #include "Algorithm.h"
 
 // 测试程序
-template<typename T>
-const char* algorithm::Algorithm<T>::demo() {
+template<typename T, typename NT>
+const char* algorithm::Algorithm<T, NT>::demo() {
     return "Hello, World!";
 }
