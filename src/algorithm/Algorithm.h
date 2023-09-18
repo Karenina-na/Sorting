@@ -20,6 +20,7 @@ namespace algorithm {
             // 如果 a >= b 返回 true, 否则返回 false
             return a >= b;
         }
+
     };
 
     template<typename T, typename NT>

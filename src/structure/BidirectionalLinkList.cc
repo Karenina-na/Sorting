@@ -37,7 +37,6 @@ namespace structure {
             this->data = Data;
             return *this;
         }
-        // 重载=
         BidirectionalLinkListNode<T> &operator=(const BidirectionalLinkListNode<T> &node) {
             if (this == &node) {
                 return *this;
@@ -59,25 +58,82 @@ namespace structure {
         friend bool operator==(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
             return node1.data == node2.data;
         }
+        friend bool operator==(const BidirectionalLinkListNode<T> &node, T d) {
+            return node.data == d;
+        }
         // 重载!=
         friend bool operator!=(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
             return node1.data != node2.data;
+        }
+        friend bool operator!=(const BidirectionalLinkListNode<T> &node, T d) {
+            return node.data != d;
         }
         // 重载<
         friend bool operator<(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
             return node1.data < node2.data;
         }
+        friend bool operator<(const BidirectionalLinkListNode<T> &node, T d) {
+            return node.data < d;
+        }
         // 重载>
         friend bool operator>(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
             return node1.data > node2.data;
+        }
+        friend bool operator>(const BidirectionalLinkListNode<T> &node, T d) {
+            return node.data > d;
         }
         // 重载<=
         friend bool operator<=(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
             return node1.data <= node2.data;
         }
+        friend bool operator<=(const BidirectionalLinkListNode<T> &node, T d) {
+            return node.data <= d;
+        }
         // 重载>=
         friend bool operator>=(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
             return node1.data >= node2.data;
+        }
+        friend bool operator>=(const BidirectionalLinkListNode<T> &node, T d) {
+            return node.data >= d;
+        }
+        // 重载+
+        friend BidirectionalLinkListNode<T> operator+(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return BidirectionalLinkListNode<T>(node1.data + node2.data);
+        }
+        friend BidirectionalLinkListNode<T> operator+(const BidirectionalLinkListNode<T> &node, T d) {
+            return BidirectionalLinkListNode<T>(node.data + d);
+        }
+        // 重载-
+        friend BidirectionalLinkListNode<T> operator-(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return BidirectionalLinkListNode<T>(node1.data - node2.data);
+        }
+        friend BidirectionalLinkListNode<T> operator-(const BidirectionalLinkListNode<T> &node, T d) {
+            return BidirectionalLinkListNode<T>(node.data - d);
+        }
+        // 重载*
+        friend BidirectionalLinkListNode<T> operator*(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return BidirectionalLinkListNode<T>(node1.data * node2.data);
+        }
+        friend BidirectionalLinkListNode<T> operator*(const BidirectionalLinkListNode<T> &node, T d) {
+            return BidirectionalLinkListNode<T>(node.data * d);
+        }
+        // 重载/
+        friend BidirectionalLinkListNode<T> operator/(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return BidirectionalLinkListNode<T>(node1.data / node2.data);
+        }
+        friend BidirectionalLinkListNode<T> operator/(const BidirectionalLinkListNode<T> &node, T d) {
+            return BidirectionalLinkListNode<T>(node.data / d);
+        }
+        // 重载%
+        friend BidirectionalLinkListNode<T> operator%(const BidirectionalLinkListNode<T> &node1, const BidirectionalLinkListNode<T> &node2) {
+            return BidirectionalLinkListNode<T>(node1.data % node2.data);
+        }
+        friend BidirectionalLinkListNode<T> operator%(const BidirectionalLinkListNode<T> &node, T d) {
+            return BidirectionalLinkListNode<T>(node.data % d);
+        }
+        // 重载值
+        operator T() const {
+            return data;
         }
     };
 

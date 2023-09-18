@@ -81,14 +81,20 @@ void test(structure::BidirectionalLinkList<int>* list){
             structure::BidirectionalLinkListNode<int>>::heapSort(*l, algorithm::Compare::less);
     l->print();
     std::cout<<std::endl;
+
+    l = list->copy();
+    std::cout<<"radix sort: "<<std::endl;
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
+            structure::BidirectionalLinkListNode<int>>::radixSort(*l, algorithm::Compare::greater);
+    l->print();
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
+            structure::BidirectionalLinkListNode<int>>::radixSort(*l, algorithm::Compare::less);
+    l->print();
 }
 
 int main(int argc, char *argv[]) {
     std::cout<<algorithm::Algorithm<int, int>::demo()<<std::endl;
     structure::BidirectionalLinkList<int>* list = create(20);
     test(list);
-
-//    std::vector<int> v{3, 7, 5, 1, 2};
-//    algorithm::Algorithm<std::vector<int>,int>::quickSort(v, algorithm::Compare::greater);
     return 0;
 }
