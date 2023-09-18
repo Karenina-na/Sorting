@@ -44,10 +44,10 @@ namespace structure {
         BidirectionalLinkList();
         ~BidirectionalLinkList();
 
-        int getLength();
+        int size();
         T getData(int index);
 
-        void foreach(void (*callback)(T));
+        void forEach(void (*callback)(T));
         void insertAtHead(T data);
         void insertAtTail(T data);
         void insertAt(int index, T data);
@@ -76,7 +76,7 @@ structure::BidirectionalLinkList<T>::~BidirectionalLinkList() {
 
 // 获取链表长度
 template<typename T>
-int structure::BidirectionalLinkList<T>::getLength() {
+int structure::BidirectionalLinkList<T>::size() {
     return length;
 }
 
@@ -110,7 +110,7 @@ T structure::BidirectionalLinkList<T>::getData(int index){
 
 // 遍历操作链表
 template<typename T>
-void structure::BidirectionalLinkList<T>::foreach(void (*callback)(T)){
+void structure::BidirectionalLinkList<T>::forEach(void (*callback)(T)){
     if (length == 0){
         throw "Empty list.";
     }
@@ -305,7 +305,7 @@ void structure::BidirectionalLinkList<T>::clear(){
 
 // 打印链表
 template<typename T>
-void structure::BidirectionalLinkList<T>::print(){
+void structure::BidirectionalLinkList<T>::print() {
     if (length == 0) {
         std::cout << "Empty list." << std::endl;
         return;
