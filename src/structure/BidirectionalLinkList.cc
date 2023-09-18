@@ -157,12 +157,13 @@ namespace structure {
         void set(int index, T data);
         bool empty();
         BidirectionalLinkList<T>* copy();
+        void build();
         void clear();
         void print();
 
         // 重载[]运算符
         BidirectionalLinkListNode<T>& operator[](int index) {
-            // 重载[]运算符，使得可以通过list[index]的方式访问链表
+            // 重载[]运算符，可以通过list[index]的访问链表
             if (index < 0 || index >= length) {
                 throw "Index out of range.";
             }
@@ -171,6 +172,10 @@ namespace structure {
             }
             if (index == 0) {
                 return *head;
+            }
+            // 排序加速
+            if (flag) {
+                return *arr[index];
             }
             // 双向查找
             if (index < length / 2) {
@@ -188,6 +193,9 @@ namespace structure {
             }
         }
 
+        // 构建排序加速 指针数组
+        BidirectionalLinkListNode<T> **arr;
+        bool flag;
     private:
         // 头尾节点
         BidirectionalLinkListNode<T> *head;
@@ -204,6 +212,8 @@ structure::BidirectionalLinkList<T>::BidirectionalLinkList() {
     head = nullptr;
     tail = nullptr;
     length = 0;
+    arr = nullptr;
+    flag = false;
 }
 
 // 析构函数
@@ -470,6 +480,22 @@ structure::BidirectionalLinkList<T>* structure::BidirectionalLinkList<T>::copy()
     return list;
 }
 
+// 构建排序加速
+template<typename T>
+void structure::BidirectionalLinkList<T>::build(){
+    if (length == 0) {
+        return;
+    }
+    delete[] arr;
+    arr = new BidirectionalLinkListNode<T>*[length];
+    BidirectionalLinkListNode<T> *node = head;
+    for (int i = 0; i < length; i++) {
+        arr[i] = node;
+        node = node->next;
+    }
+    flag = true;
+}
+
 // 清空链表
 template<typename T>
 void structure::BidirectionalLinkList<T>::clear(){
@@ -493,6 +519,10 @@ void structure::BidirectionalLinkList<T>::clear(){
     head = nullptr;
     tail = nullptr;
     length = 0;
+    if (arr != nullptr) {
+        delete[] arr;
+        arr = nullptr;
+    }
 }
 
 // 打印链表
