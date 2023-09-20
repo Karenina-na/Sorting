@@ -107,18 +107,15 @@ int main(int argc, char *argv[]) {
     structure::BidirectionalLinkList<int>* list = create(2000);
 
     // 查看时间
-    clock_t start1, start2, end1, end2;
-
-    start1 = clock();
-    test(list, false);
-    end1 = clock();
-
-    start2 = clock();
+    algorithm::Evaluate evaluate;
+    evaluate.start();
     test(list, true);
-    end2 = clock();
+    evaluate.end();
 
-    std::cout<<"time without build: "<<(double)(end1 - start1) / CLOCKS_PER_SEC<<std::endl;
-    std::cout<<"time with build: "<<(double)(end2 - start2) / CLOCKS_PER_SEC<<std::endl;
+
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
+    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
 
     return 0;
 }
