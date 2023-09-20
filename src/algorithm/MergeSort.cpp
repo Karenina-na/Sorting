@@ -8,13 +8,18 @@
 template<typename T, typename NT>
 void algorithm::Algorithm<T, NT>::mergeSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
+    evaluate.reset();
+    evaluate.start();
+
     // 判空 & 判空指针
     if (arr.empty() || compare == nullptr) {
+        evaluate.end();
         return;
     }
 
     // 如果只有一个元素，直接返回
     if (arr.size() == 1) {
+        evaluate.end();
         return;
     }
 
@@ -27,6 +32,7 @@ void algorithm::Algorithm<T, NT>::mergeSort(T &arr, bool (*compare)(NT, NT), Eva
                     j + 2 * i - 1 < arr.size() - 1 ? j + 2 * i - 1 : arr.size() - 1, compare, evaluate);
         }
     }
+    evaluate.end();
 }
 
 // 两个有序数组合并
@@ -37,27 +43,34 @@ void algorithm::Algorithm<T, NT>::merge(T &arr, int begin1, int end1, int begin2
 
     // 两个数组合并
     while (i <= end1 && j <= end2) {
+        evaluate.addCompCount(1);
         if (compare(arr[i], arr[j])) {
+            evaluate.addMoveCount(1);
             temp[k++] = arr[i++];
         } else {
+            evaluate.addMoveCount(1);
             temp[k++] = arr[j++];
         }
     }
 
     // 处理归并剩余
     while (i <= end1) {
+        evaluate.addMoveCount(1);
         temp[k++] = arr[i++];
     }
 
     while (j <= end2) {
+        evaluate.addMoveCount(1);
         temp[k++] = arr[j++];
     }
 
     // 将 temp 中的元素复制到 arr 指定地点中
     for (int l = 0; l < end2 - begin1 + 1; l++) {
+        evaluate.addMoveCount(1);
         arr[begin1 + l] = temp[l];
     }
     for (int l = 0; l < end2 - begin2 + 1; l++) {
+        evaluate.addMoveCount(1);
         arr[begin2 + l] = temp[end1 - begin1 + 1 + l];
     }
 }

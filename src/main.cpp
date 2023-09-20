@@ -138,7 +138,7 @@ void test(structure::BidirectionalLinkList<int>* list, bool build){
 void checkForGreater(structure::BidirectionalLinkList<int>& list){
     // 检验从大到小
     structure::BidirectionalLinkListNode<int> last = list[0];
-    for (int i = 1; i < 5; i++) {
+    for (int i = 1; i < list.size(); i++) {
         if (last < list[i]) {
             std::cout<<"error"<<std::endl;
             return;
@@ -150,7 +150,7 @@ void checkForGreater(structure::BidirectionalLinkList<int>& list){
 void checkForLess(structure::BidirectionalLinkList<int>& list){
     // 检验从小到大
     structure::BidirectionalLinkListNode<int> last = list[0];
-    for (int i = 1; i < 5; i++) {
+    for (int i = 1; i < list.size(); i++) {
         if (last > list[i]) {
             std::cout<<"error"<<std::endl;
             return;
@@ -165,11 +165,20 @@ void testAlgorithm(structure::BidirectionalLinkList<int> list,
                                     structure::BidirectionalLinkListNode<int>),
                             algorithm::Evaluate&),
                             bool show){
+    /*
+    structure::BidirectionalLinkList<int>* list = create(2);
+//    list->print();
+    std::cout<<std::endl;
+
+    testAlgorithm(*list, algorithm::Algorithm<structure::BidirectionalLinkList<int>,
+                    structure::BidirectionalLinkListNode<int>>::radixSort, false);
+     */
     algorithm::Evaluate evaluate;
     structure::BidirectionalLinkList<int> *l;
 
     // 从小到大
     l = list.copy();
+    l->build();
     std::cout<<"from less to greater: "<<std::endl;
     algorithm(*l, algorithm::Compare::less, evaluate);
     checkForLess(*l);
@@ -183,6 +192,7 @@ void testAlgorithm(structure::BidirectionalLinkList<int> list,
 
     // 从大到小
     l = list.copy();
+    l->build();
     std::cout<<"from greater to less: "<<std::endl;
     algorithm(*l, algorithm::Compare::greater, evaluate);
     checkForGreater(*l);
@@ -195,14 +205,6 @@ void testAlgorithm(structure::BidirectionalLinkList<int> list,
 }
 
 int main(int argc, char *argv[]) {
-//    std::cout<<algorithm::Algorithm<int, int>::demo()<<std::endl;
-
-    structure::BidirectionalLinkList<int>* list = create(5);
-    list->print();
-    std::cout<<std::endl;
-
-    testAlgorithm(*list, algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::bubbleSort, true);
-
+    std::cout<<algorithm::Algorithm<int, int>::demo()<<std::endl;
     return 0;
 }

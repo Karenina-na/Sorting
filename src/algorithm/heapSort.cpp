@@ -7,13 +7,18 @@
 template<typename T, typename NT>
 void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
+    evaluate.reset();
+    evaluate.start();
+
     // 判空 & 判空指针
     if (arr.empty() || compare == nullptr) {
+        evaluate.end();
         return;
     }
 
     // 如果只有一个元素，直接返回
     if (arr.size() == 1) {
+        evaluate.end();
         return;
     }
 
@@ -27,6 +32,7 @@ void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT), Eval
     for (int i = size - 1; i > 0; i--) {
 
         // 交换堆顶元素和最后一个元素
+        evaluate.addMoveCount(2);
         temp = arr[0];
         arr[0] = arr[i];
         arr[i] = temp;
@@ -34,7 +40,7 @@ void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT), Eval
         // 重新调整堆
         createHeap(arr, i, compare, evaluate);
     }
-
+    evaluate.end();
 }
 
 template<typename T, typename NT>
@@ -53,11 +59,13 @@ void algorithm::Algorithm<T, NT>::createHeap(T& arr, int size, bool (*compare)(N
         while (k < size) {
 
             // 找到左右孩子中较大的一个
+            evaluate.addCompCount(2);
             if (k + 1 < size && compare(arr[k], arr[k + 1])) {
                 k++;
             }
 
             if (compare(temp, arr[k])) {
+                evaluate.addMoveCount(1);
                 arr[j] = arr[k];
 
                 // 继续将指针指向后代节点，继续调整堆
@@ -71,5 +79,6 @@ void algorithm::Algorithm<T, NT>::createHeap(T& arr, int size, bool (*compare)(N
         }
 
         arr[j] = temp;
+        evaluate.addMoveCount(2);
     }
 }

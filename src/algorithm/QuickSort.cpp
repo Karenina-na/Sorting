@@ -3,18 +3,24 @@
 //
 #include "Algorithm.h"
 #include <stack>
+#include <iostream>
 
 // 快速排序
 template<typename T, typename NT>
 void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
+    evaluate.reset();
+    evaluate.start();
+
     // 判空 & 判空指针
     if (arr.empty() || compare == nullptr) {
+        evaluate.end();
         return;
     }
 
     // 如果只有一个元素，直接返回
     if (arr.size() == 1) {
+        evaluate.end();
         return;
     }
 
@@ -46,6 +52,8 @@ void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT), Eva
             s.push(end);
         }
     }
+
+    evaluate.end();
 }
 
 // 单次快速排序
@@ -55,10 +63,11 @@ int algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*comp
     // 寄存key值
     NT temp = arr[begin];
 
-    while (begin != end) {
+    while (begin < end) {
 
         // 找到第一个比 key 大/小的元素
-        while (begin != end && compare(temp, arr[end])) {
+        while (begin != end && (compare(temp, arr[end]) || temp == arr[end])){
+            evaluate.addCompCount(1);
             end--;
         }
 
@@ -66,16 +75,19 @@ int algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*comp
         arr[begin] = arr[end];
 
         // 找到第一个比 key 小/大的元素
-        while (begin != end && compare(arr[begin], temp)) {
+        while (begin != end && (compare(arr[begin], temp) || temp == arr[end])) {
+            evaluate.addCompCount(1);
             begin++;
         }
 
         // 放入右边
         arr[end] = arr[begin];
+        evaluate.addMoveCount(2);
     }
 
     // begin == end
     arr[begin] = temp;
+    evaluate.addMoveCount(1);
 
     return begin;
 }
