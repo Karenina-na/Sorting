@@ -5,7 +5,7 @@
 
 // 堆排序
 template<typename T, typename NT>
-void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT)) {
+void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
     // 判空 & 判空指针
     if (arr.empty() || compare == nullptr) {
@@ -38,7 +38,7 @@ void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT)) {
 }
 
 template<typename T, typename NT>
-void algorithm::Algorithm<T, NT>::createHeap(T& arr, int size, bool (*compare)(NT, NT)){
+void algorithm::Algorithm<T, NT>::createHeap(T& arr, int size, bool (*compare)(NT, NT), Evaluate& evaluate){
     NT temp;
     int j;
 

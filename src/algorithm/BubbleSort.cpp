@@ -5,7 +5,7 @@
 
 // 冒泡排序
 template<typename T, typename NT>
-void algorithm::Algorithm<T, NT>::bubbleSort(T &arr, bool (*compare)(NT, NT)) {
+void algorithm::Algorithm<T, NT>::bubbleSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
     // 判空 & 判空指针
     if (arr.empty() || compare == nullptr) {

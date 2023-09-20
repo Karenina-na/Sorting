@@ -55,27 +55,27 @@ namespace algorithm {
     template<typename T, typename NT>
     class Algorithm {
     private:
-        static int partSort(T& arr, int begin, int end,bool (*compare)(NT, NT) );
+        static int partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void createHeap(T& arr, int size, bool (*compare)(NT, NT) );
+        static void createHeap(T& arr, int size, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT) );
+        static void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT), Evaluate& evaluate);
     public:
-        static void insertionSort(T &arr, bool (*compare)(NT, NT) );
+        static void insertionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void bubbleSort(T &arr, bool (*compare)(NT, NT) );
+        static void bubbleSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void selectionSort(T &arr, bool (*compare)(NT, NT) );
+        static void selectionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void shellSort(T &arr, bool (*compare)(NT, NT) );
+        static void shellSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void quickSort(T &arr, bool (*compare)(NT, NT) );
+        static void quickSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void heapSort(T &arr, bool (*compare)(NT, NT) );
+        static void heapSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void radixSort(T &arr, bool (*compare)(NT, NT) );
+        static void radixSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void mergeSort(T &arr, bool (*compare)(NT, NT) );
+        static void mergeSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
         const static char* demo();
     };

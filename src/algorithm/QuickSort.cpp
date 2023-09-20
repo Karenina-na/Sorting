@@ -6,7 +6,7 @@
 
 // 快速排序
 template<typename T, typename NT>
-void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT)) {
+void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
     // 判空 & 判空指针
     if (arr.empty() || compare == nullptr) {
@@ -50,7 +50,7 @@ void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT)) {
 
 // 单次快速排序
 template<typename T, typename NT>
-int algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*compare)(NT, NT)){
+int algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate){
 
     // 寄存key值
     NT temp = arr[begin];

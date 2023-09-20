@@ -30,7 +30,7 @@ void algorithm::Evaluate::addCompCount(int n){
 
 // 移动次数加一
 void algorithm::Evaluate::addMoveCount(int n){
-    this->moveCount = n;
+    this->moveCount += n;
 }
 
 // 获取比较次数
