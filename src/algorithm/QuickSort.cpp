@@ -33,7 +33,7 @@ void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT), Eva
         begin = s.top();
         s.pop();
 
-        mid = partSort(arr, begin, end, compare);
+        mid = partSort(arr, begin, end, compare, evaluate);
 
         // 将左右两边的子数组压入栈中
         if (begin < mid - 1){

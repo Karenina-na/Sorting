@@ -14,13 +14,13 @@ namespace algorithm {
         template<typename T>
         static bool less(T a, T b) {
             // 如果 a < b 返回 true, 否则返回 false
-            return a <= b;
+            return a < b;
         }
 
         template<typename T>
         static bool greater(T a, T b) {
             // 如果 a >= b 返回 true, 否则返回 false
-            return a >= b;
+            return a > b;
         }
 
     };

@@ -20,7 +20,7 @@ void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT), Eval
     int size = arr.size();
 
     // 创建堆
-    createHeap(arr, size, compare);
+    createHeap(arr, size, compare ,evaluate);
     NT temp;
 
     // 排序
@@ -32,7 +32,7 @@ void algorithm::Algorithm<T, NT>::heapSort(T &arr, bool (*compare)(NT, NT), Eval
         arr[i] = temp;
 
         // 重新调整堆
-        createHeap(arr, i, compare);
+        createHeap(arr, i, compare, evaluate);
     }
 
 }

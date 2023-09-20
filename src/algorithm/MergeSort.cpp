@@ -24,7 +24,7 @@ void algorithm::Algorithm<T, NT>::mergeSort(T &arr, bool (*compare)(NT, NT), Eva
         for (int j = 0; j < arr.size() - i; j += 2 * i) {
             // arr1[j, j + i - 1] 与 arr2[j + i, j + 2 * i - 1] 合并
             merge(arr, j, j + i - 1, j + i,
-                    j + 2 * i - 1 < arr.size() - 1 ? j + 2 * i - 1 : arr.size() - 1, compare);
+                    j + 2 * i - 1 < arr.size() - 1 ? j + 2 * i - 1 : arr.size() - 1, compare, evaluate);
         }
     }
 }
