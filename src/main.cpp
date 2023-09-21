@@ -45,48 +45,6 @@ void checkForLess(structure::BidirectionalLinkList<int>& list){
     }
 }
 
-void testAlgorithm(structure::BidirectionalLinkList<int>& list,
-                    void (*algorithm)(structure::BidirectionalLinkList<int>&, bool (*)(int,int),algorithm::Evaluate&),
-                            bool show){
-    /*
-    structure::BidirectionalLinkList<int>* list = create(2);
-//    list->print();
-    std::cout<<std::endl;
-
-    testAlgorithm(*list, algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-                    structure::BidirectionalLinkListNode<int>>::radixSort, false);
-     */
-    algorithm::Evaluate evaluate;
-    structure::BidirectionalLinkList<int> *l;
-
-    // 从小到大
-    l = list.copy();
-    l->build();
-    std::cout<<"from less to greater: "<<std::endl;
-    algorithm(*l, algorithm::Compare::less, evaluate);
-    checkForLess(*l);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    if (show) {
-        l->print();
-    }
-    std::cout<<std::endl;
-
-    // 从大到小
-    l = list.copy();
-    l->build();
-    std::cout<<"from greater to less: "<<std::endl;
-    algorithm(*l, algorithm::Compare::greater, evaluate);
-    checkForGreater(*l);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    if (show) {
-        l->print();
-    }
-}
-
 void testDistribution(int n){
     // 均匀分布
     std::cout<<"uniform distribution: "<<std::endl;
@@ -157,7 +115,71 @@ void testDistribution(int n){
     std::cout<<std::endl<<std::endl;
 }
 
+void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show){
+    algorithm::Evaluate evaluate;
+    structure::BidirectionalLinkList<int> *l;
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
+
+    // 从小到大
+    l = list.copy();
+    l->build();
+    std::cout<<"from less to greater: "<<std::endl;
+    algorithm.quickSort(*l, algorithm::Compare::less, evaluate);
+    checkForLess(*l);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
+    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
+    if (show) {
+        l->print();
+    }
+    std::cout<<std::endl;
+
+    // 从大到小
+    l = list.copy();
+    l->build();
+    std::cout<<"from greater to less: "<<std::endl;
+    algorithm.quickSort(*l, algorithm::Compare::greater, evaluate);
+    checkForGreater(*l);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
+    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
+    if (show) {
+        l->print();
+    }
+    std::cout<<std::endl;
+
+    // 从小到大
+    l = list.copy();
+    l->build();
+    std::cout<<"from less to greater: "<<std::endl;
+    algorithm.sort(*l, algorithm::Compare::less, evaluate);
+    checkForLess(*l);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
+    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
+    if (show) {
+        l->print();
+    }
+    std::cout<<std::endl;
+
+    // 从大到小
+    l = list.copy();
+    l->build();
+    std::cout<<"from greater to less: "<<std::endl;
+    algorithm.sort(*l, algorithm::Compare::greater, evaluate);
+    checkForGreater(*l);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
+    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
+    if (show) {
+        l->print();
+    }
+}
+
 int main(int argc, char *argv[]) {
     std::cout<<algorithm::Algorithm<int, int>::demo()<<std::endl;
+    structure::BidirectionalLinkList<int> *list = create(10000000);
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
+    testAlgorithm(*list, false);
     return 0;
 }

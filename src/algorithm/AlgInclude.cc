@@ -10,3 +10,4 @@
 #include "MergeSort.cpp"
 #include "HeapSort.cpp"
 #include "RadixSort.cpp"
+#include "Sort.cpp"

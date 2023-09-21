@@ -2,10 +2,12 @@
 // Created by Karenina-na on 2023/9/17.
 //
 
-#include <ctime>
-
 #ifndef SORTING_ALGORITHM_INTERFACE_FRAMEWORK_ALGORITHM_H
 #define SORTING_ALGORITHM_INTERFACE_FRAMEWORK_ALGORITHM_H
+
+#include <ctime>
+#include <thread>
+#include <atomic>
 
 namespace algorithm {
     // 比较器
@@ -28,8 +30,8 @@ namespace algorithm {
     // 评估器
     class Evaluate {
     private:
-        long long compCount{};
-        long long moveCount{};
+        std::atomic<long long> compCount{};
+        std::atomic<long long> moveCount{};
         clock_t startTime{};
         clock_t endTime{};
     public:
@@ -55,29 +57,35 @@ namespace algorithm {
     template<typename T, typename NT>
     class Algorithm {
     private:
-        static void partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
+        void partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void createHeap(T& arr, int size, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void createHeap(T& arr, int size, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT), Evaluate& evaluate);
+
+        void sortInsertion(T& arr, int begin, int end, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void sortStack(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate, int deep);
     public:
-        static void insertionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void insertionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void bubbleSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void bubbleSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void selectionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void selectionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void shellSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void shellSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void quickSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void quickSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void heapSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void heapSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void radixSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void radixSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        static void mergeSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void mergeSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
         const static char* demo();
+
+        void sort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        int stack_deep = 8;
     };
 
 }

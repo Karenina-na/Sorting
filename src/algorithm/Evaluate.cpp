@@ -35,12 +35,12 @@ void algorithm::Evaluate::addMoveCount(int n){
 
 // 获取比较次数
 long long algorithm::Evaluate::getCompCount() const{
-    return this->compCount;
+    return this->compCount.load();
 }
 
 // 获取移动次数
 long long algorithm::Evaluate::getMoveCount() const{
-    return this->moveCount;
+    return this->moveCount.load();
 }
 
 // 获取算法运行时间 单位: ms
