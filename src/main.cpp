@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <vector>
 #include <ctime>
+#include <algorithm>
 
 structure::BidirectionalLinkList<int>* create(int n){
     // 随机生成数据插入链表
@@ -19,128 +20,10 @@ structure::BidirectionalLinkList<int>* create(int n){
     return list;
 }
 
-void test(structure::BidirectionalLinkList<int>* list, bool build){
-    structure::BidirectionalLinkList<int>* l;
-    algorithm::Evaluate evaluate;
-
-    std::cout<<"original list: "<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"insertion sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::insertionSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::insertionSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"bubble sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::bubbleSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::bubbleSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"selection sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::selectionSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::selectionSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"shell sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::shellSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::shellSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"quick sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::quickSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::quickSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"heap sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::heapSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::heapSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"radix sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::radixSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::radixSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-
-    l = list->copy();
-    if (build) {
-        l->build();
-    }
-    std::cout<<"merge sort: "<<std::endl;
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::mergeSort(*l, algorithm::Compare::greater, evaluate);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>,
-            structure::BidirectionalLinkListNode<int>>::mergeSort(*l, algorithm::Compare::less, evaluate);
-    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-    std::cout<<"comp count: "<<evaluate.getCompCount()<<std::endl;
-    std::cout<<"move count: "<<evaluate.getMoveCount()<<std::endl;
-    std::cout<<std::endl;
-}
 
 void checkForGreater(structure::BidirectionalLinkList<int>& list){
     // 检验从大到小
-    structure::BidirectionalLinkListNode<int> last = list[0];
+    int last = list[0];
     for (int i = 1; i < list.size(); i++) {
         if (last < list[i]) {
             std::cout<<"error"<<std::endl;
@@ -152,7 +35,7 @@ void checkForGreater(structure::BidirectionalLinkList<int>& list){
 
 void checkForLess(structure::BidirectionalLinkList<int>& list){
     // 检验从小到大
-    structure::BidirectionalLinkListNode<int> last = list[0];
+    int last = list[0];
     for (int i = 1; i < list.size(); i++) {
         if (last > list[i]) {
             std::cout<<"error"<<std::endl;
@@ -162,11 +45,8 @@ void checkForLess(structure::BidirectionalLinkList<int>& list){
     }
 }
 
-void testAlgorithm(structure::BidirectionalLinkList<int> list,
-                    void (*algorithm)(structure::BidirectionalLinkList<int>&,
-                            bool (*)(structure::BidirectionalLinkListNode<int>,
-                                    structure::BidirectionalLinkListNode<int>),
-                            algorithm::Evaluate&),
+void testAlgorithm(structure::BidirectionalLinkList<int>& list,
+                    void (*algorithm)(structure::BidirectionalLinkList<int>&, bool (*)(int,int),algorithm::Evaluate&),
                             bool show){
     /*
     structure::BidirectionalLinkList<int>* list = create(2);

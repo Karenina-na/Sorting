@@ -55,7 +55,7 @@ namespace algorithm {
     template<typename T, typename NT>
     class Algorithm {
     private:
-        static int partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
+        static void partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
 
         static void createHeap(T& arr, int size, bool (*compare)(NT, NT), Evaluate& evaluate);
 

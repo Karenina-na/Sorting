@@ -24,70 +24,52 @@ void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT), Eva
         return;
     }
 
-    // 第一趟为整个数组排序
-    std::stack<int> s;
-    int mid, begin, end;
-    s.push(0);
-    s.push(arr.size() - 1);
-
-    // 快速排序--堆栈实现
-    while (!s.empty()) {
-
-        // 取出本次快速排序的左右边界
-        end = s.top();
-        s.pop();
-        begin = s.top();
-        s.pop();
-
-        mid = partSort(arr, begin, end, compare, evaluate);
-
-        // 将左右两边的子数组压入栈中
-        if (begin < mid - 1){
-            s.push(begin);
-            s.push(mid - 1);
-        }
-
-        if (mid + 1 < end){
-            s.push(mid + 1);
-            s.push(end);
-        }
-    }
+    // 快排
+    partSort(arr, 0, arr.size() - 1, compare, evaluate);
 
     evaluate.end();
 }
 
 // 单次快速排序
 template<typename T, typename NT>
-int algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate){
+void algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate){
 
     // 寄存key值
     NT temp = arr[begin];
+    int i = begin, j = end;
 
-    while (begin < end) {
+    while (i < j) {
 
         // 找到第一个比 key 大/小的元素
-        while (begin != end && (compare(temp, arr[end]) || temp == arr[end])){
+        while (i != j && (compare(temp, arr[j]) || temp == arr[j])){
             evaluate.addCompCount(1);
-            end--;
+            j--;
         }
 
         // 放入左边
-        arr[begin] = arr[end];
+        arr[i] = arr[j];
 
         // 找到第一个比 key 小/大的元素
-        while (begin != end && (compare(arr[begin], temp) || temp == arr[end])) {
+        while (i != j && (compare(arr[i], temp) || temp == arr[j])) {
             evaluate.addCompCount(1);
-            begin++;
+            i++;
         }
 
         // 放入右边
-        arr[end] = arr[begin];
+        arr[j] = arr[i];
         evaluate.addMoveCount(2);
     }
 
     // begin == end
-    arr[begin] = temp;
-    evaluate.addMoveCount(1);
+    arr[i] = temp;
+    evaluate.addMoveCount(2);
 
-    return begin;
+    // 左边递归
+    if (begin < i - 1){
+        partSort(arr, begin, i - 1, compare, evaluate);
+    }
+    // 右边递归
+    if (i + 1 < end){
+        partSort(arr, i + 1, end, compare, evaluate);
+    }
 }

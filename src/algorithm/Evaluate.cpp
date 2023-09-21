@@ -43,9 +43,9 @@ long long algorithm::Evaluate::getMoveCount() const{
     return this->moveCount;
 }
 
-// 获取算法运行时间 单位: 秒
+// 获取算法运行时间 单位: ms
 double algorithm::Evaluate::getTime() const{
-    return (double)(this->endTime - this->startTime) / CLOCKS_PER_SEC;
+    return (double)(this->endTime - this->startTime);
 }
 
 // 重置评估器
