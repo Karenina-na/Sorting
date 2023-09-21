@@ -33,7 +33,7 @@ namespace structure {
         }
 
         // 重载=
-        BidirectionalLinkListNode<T> &operator=(T Data) {
+        BidirectionalLinkListNode<T> &operator=(T& Data) {
             this->data = Data;
             return *this;
         }
@@ -162,7 +162,7 @@ namespace structure {
         void print();
 
         // 重载[]运算符
-        BidirectionalLinkListNode<T>& operator[](int index) {
+        T& operator[](int index) {
             // 重载[]运算符，可以通过list[index]的访问链表
             if (index < 0 || index >= length) {
                 throw "Index out of range.";
@@ -171,11 +171,11 @@ namespace structure {
                 throw "Empty list.";
             }
             if (index == 0) {
-                return *head;
+                return head->data;
             }
             // 排序加速
             if (flag) {
-                return *arr[index];
+                return arr[index]->data;
             }
             // 双向查找
             if (index < length / 2) {
@@ -183,13 +183,13 @@ namespace structure {
                 for (int i = 0; i < index; i++) {
                     node = node->next;
                 }
-                return *node;
+                return node->data;
             } else {
                 BidirectionalLinkListNode<T> *node = tail;
                 for (int i = length - 1; i > index; i--) {
                     node = node->prev;
                 }
-                return *node;
+                return node->data;
             }
         }
 
