@@ -1,7 +1,10 @@
-#include <iostream>
 #include "Algorithm.h"
-#include "BidirectionalLinkList.cc"
 #include "AlgInclude.cc"
+#include "Distribution.h"
+#include "DisInclude.cc"
+#include "BidirectionalLinkList.cc"
+
+#include <iostream>
 #include <cstdlib>
 #include <vector>
 #include <ctime>
@@ -202,6 +205,76 @@ void testAlgorithm(structure::BidirectionalLinkList<int> list,
     if (show) {
         l->print();
     }
+}
+
+void testDistribution(int n){
+    // 均匀分布
+    std::cout<<"uniform distribution: "<<std::endl;
+    distribution::Uniform<int> uniform(n, 0, 20);
+    std::vector<int> *uVector = uniform.generate();
+    std::vector<int> uCount(20, 0);
+    for (int i : *uVector) {
+        uCount[i]++;
+    }
+    for (int i = 0; i < uCount.size(); i++) {
+        std::cout<<i<<" ";
+    }
+    std::cout<<std::endl;
+    for (int i : uCount) {
+        std::cout<<" "<<i;
+    }
+    std::cout<<std::endl<<std::endl;
+
+    // 高斯分布
+    std::cout<<"gaussian distribution: "<<std::endl;
+    distribution::Gaussian<int> gaussian(n, -10, 10, 0, 1, 100);
+    std::vector<int> *gVector = gaussian.generate();
+    std::vector<int> gCount(21, 0);
+    for (int i : *gVector) {
+        gCount[i + 10]++;
+    }
+    for (int i = 0; i < gCount.size(); i++) {
+        std::cout<<i - 10<<" ";
+    }
+    std::cout<<std::endl;
+    for (int i : gCount) {
+        std::cout<<" "<<i;
+    }
+    std::cout<<std::endl<<std::endl;
+
+    // 泊松分布
+    std::cout<<"poisson distribution: "<<std::endl;
+    distribution::Poisson<int> poisson(n, 0, 20, 3);
+    std::vector<int> *pVector = poisson.generate();
+    std::vector<int> pCount(20, 0);
+    for (int i : *pVector) {
+        pCount[i]++;
+    }
+    for (int i = 0; i < pCount.size(); i++) {
+        std::cout<<i<<" ";
+    }
+    std::cout<<std::endl;
+    for (int i : pCount) {
+        std::cout<<" "<<i;
+    }
+    std::cout<<std::endl<<std::endl;
+
+    // 指数分布
+    std::cout<<"exponential distribution: "<<std::endl;
+    distribution::Exponential<int> exponential(n, 0, 20, 0.1);
+    std::vector<int> *eVector = exponential.generate();
+    std::vector<int> eCount(20, 0);
+    for (int i : *eVector) {
+        eCount[i]++;
+    }
+    for (int i = 0; i < eCount.size(); i++) {
+        std::cout<<i<<" ";
+    }
+    std::cout<<std::endl;
+    for (int i : eCount) {
+        std::cout<<" "<<i;
+    }
+    std::cout<<std::endl<<std::endl;
 }
 
 int main(int argc, char *argv[]) {
