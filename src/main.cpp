@@ -11,7 +11,7 @@ structure::BidirectionalLinkList<int>* create(int n){
     srand((unsigned)time(NULL));
     auto* list = new structure::BidirectionalLinkList<int>();
     for (int i = 0; i < n; i++) {
-        list->insertAtTail(rand() % 100);
+        list->insertAtTail(rand() % n);
     }
     return list;
 }
