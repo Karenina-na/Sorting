@@ -64,7 +64,7 @@ namespace algorithm {
         void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT), Evaluate& evaluate);
 
         void sortInsertion(T& arr, int begin, int end, bool (*compare)(NT, NT), Evaluate& evaluate);
-        void sortStack(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate, int deep);
+        void sortStack(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
     public:
         void insertionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 

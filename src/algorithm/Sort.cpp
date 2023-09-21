@@ -3,6 +3,7 @@
 //
 
 #include "Algorithm.h"
+#include <thread>
 
 // 排序
 template<typename T, typename NT>
@@ -30,14 +31,14 @@ void algorithm::Algorithm<T, NT>::sort(T &arr, bool (*compare)(NT, NT), Evaluate
         return;
     }
 
-    sortStack(arr, 0, arr.size() - 1, compare, evaluate, 0);
+    sortStack(arr, 0, arr.size() - 1, compare, evaluate);
 
     evaluate.end();
 }
 
 // 快速排序(并发版)
 template<typename T, typename NT>
-void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (*compare)(NT, NT), Evaluate& evaluate, int deep) {
+void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (*compare)(NT, NT), Evaluate& evaluate) {
 
     // 寄存key值
     NT temp = arr[begin];
@@ -75,7 +76,7 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (*c
         if (i - 1 - begin < 20) {
             sortInsertion(arr, begin, i - 1, compare, evaluate);
         } else {
-            sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
+            sortStack(arr, begin, i - 1, compare, evaluate);
         }
     }
     // 右边递归
@@ -84,7 +85,7 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (*c
         if (end - i - 1 < 20) {
             sortInsertion(arr, i + 1, end, compare, evaluate);
         } else {
-            sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
+            sortStack(arr, i + 1, end, compare, evaluate);
         }
     }
 
