@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(Sorting_Algorithm_Interface_Framework)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # 静态编译、静态链接
