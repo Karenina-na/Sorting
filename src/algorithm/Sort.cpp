@@ -3,7 +3,6 @@
 //
 
 #include "Algorithm.h"
-#include <thread>
 
 // 排序
 template<typename T, typename NT>
@@ -30,12 +29,8 @@ void algorithm::Algorithm<T, NT>::sort(T &arr, bool (*compare)(NT, NT), Evaluate
         evaluate.end();
         return;
     }
-    // 多线程
-    // lambda
-    std::thread t([&](){
-        sortStack(arr, 0, arr.size() - 1, compare, evaluate, 0);
-    });
-    t.join();
+
+    sortStack(arr, 0, arr.size() - 1, compare, evaluate, 0);
 
     evaluate.end();
 }
@@ -75,49 +70,24 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (*c
     evaluate.addMoveCount(2);
 
     // 左边递归
-    std::thread* t1 = nullptr;
     if (begin < i - 1){
         // 小数组插入排序
         if (i - 1 - begin < 20) {
             sortInsertion(arr, begin, i - 1, compare, evaluate);
         } else {
-            if (deep < stack_deep) {
-                // lambda
-                t1 = new std::thread([&](){
-                    sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
-                });
-            }else{
-                sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
-            }
+            sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
         }
     }
     // 右边递归
-    std::thread* t2 = nullptr;
     if (i + 1 < end){
         // 小数组插入排序
         if (end - i - 1 < 20) {
             sortInsertion(arr, i + 1, end, compare, evaluate);
         } else {
-            if (deep < stack_deep) {
-                // lambda
-                t2 = new std::thread([&](){
-                    sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
-                });
-            }else{
-                sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
-            }
+            sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
         }
     }
 
-    // 等待线程结束
-    if (t1 != nullptr){
-        t1->join();
-        delete t1;
-    }
-    if (t2 != nullptr){
-        t2->join();
-        delete t2;
-    }
 }
 
 // 小数组插入排序

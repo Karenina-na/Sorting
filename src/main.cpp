@@ -9,6 +9,7 @@
 #include <vector>
 #include <ctime>
 #include <algorithm>
+#include <thread>
 
 structure::BidirectionalLinkList<int>* create(int n){
     // 随机生成数据插入链表
@@ -20,8 +21,8 @@ structure::BidirectionalLinkList<int>* create(int n){
     return list;
 }
 
-
-void checkForGreater(structure::BidirectionalLinkList<int>& list){
+template<typename T>
+void checkForGreater(T& list){
     // 检验从大到小
     int last = list[0];
     for (int i = 1; i < list.size(); i++) {
@@ -33,7 +34,8 @@ void checkForGreater(structure::BidirectionalLinkList<int>& list){
     }
 }
 
-void checkForLess(structure::BidirectionalLinkList<int>& list){
+template<typename T>
+void checkForLess(T& list){
     // 检验从小到大
     int last = list[0];
     for (int i = 1; i < list.size(); i++) {
@@ -178,8 +180,20 @@ void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show){
 
 int main(int argc, char *argv[]) {
     std::cout<<algorithm::Algorithm<int, int>::demo()<<std::endl;
-    structure::BidirectionalLinkList<int> *list = create(10000000);
-    algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
-    testAlgorithm(*list, false);
+
+    distribution::Uniform<int> uniform(10000000, 0, 10000000);
+    algorithm::Algorithm<std::vector<int>, int> algorithm{};
+    algorithm::Evaluate evaluate;
+
+    std::vector<int> *l1 = uniform.generate();
+    algorithm.sort(*l1, algorithm::Compare::greater, evaluate);
+    checkForGreater(*l1);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+
+    std::vector<int> *l2 = uniform.generate();
+    algorithm.quickSort(*l2, algorithm::Compare::greater, evaluate);
+    checkForGreater(*l2);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+
     return 0;
 }

@@ -85,7 +85,6 @@ namespace algorithm {
         const static char* demo();
 
         void sort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
-        int stack_deep = 8;
     };
 
 }
