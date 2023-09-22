@@ -2,10 +2,11 @@
 // Created by Karenina-na on 2023/9/17.
 //
 
-#include <iostream>
 
 #ifndef SORTING_ALGORITHM_INTERFACE_FRAMEWORK_BIDIRECTIONALLINKLIST_H
 #define SORTING_ALGORITHM_INTERFACE_FRAMEWORK_BIDIRECTIONALLINKLIST_H
+
+#include <iostream>
 
 namespace structure {
 

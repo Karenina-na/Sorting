@@ -3,7 +3,7 @@
 //
 
 #include "Algorithm.h"
-#include <thread>
+#include "ThreadPool.cc"
 
 // 排序
 template<typename T, typename NT>
