@@ -1,9 +1,8 @@
 #include "Algorithm.h"
 #include "Distribution.h"
 #include "BidirectionalLinkList.h"
-#include "ThreadPool.h"
-
 #include <iostream>
+
 
 structure::BidirectionalLinkList<int>* create(int n){
     // 随机生成数据插入链表
@@ -111,8 +110,9 @@ void testDistribution(int n){
     std::cout<<std::endl<<std::endl;
 }
 
-void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show){
+void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show, bool flag){
     algorithm::Evaluate evaluate;
+    evaluate.flag = flag;
     structure::BidirectionalLinkList<int> *l;
     algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
 
@@ -174,5 +174,7 @@ void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show){
 
 int main(int argc, char *argv[]) {
     std::cout << algorithm::Algorithm<int, int>::demo() << std::endl;
+    structure::BidirectionalLinkList<int> *list = create(10000000);
+    testAlgorithm(*list, false, false);
     return 0;
 }

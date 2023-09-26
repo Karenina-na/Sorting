@@ -11,6 +11,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <functional>
 
 namespace structure{
     // 并发安全队列
@@ -40,14 +41,14 @@ namespace structure{
         ThreadPool(int core_num, int max_num);
         ~ThreadPool();
 
-        void addTask(void (*task)(void*));              // 添加任务
+        void addTask(std::function<void(void*)>const* task);              // 添加任务
         void destroy();                                // 销毁线程池
         int getActiveNum();                            // 活动线程数
         int getTaskNum();                              // 任务数
         bool isRunning();                              // 是否运行
 
     private:
-        SafeQueue<void*> taskQueue;                    // 任务队列
+        SafeQueue<std::function<void(void*)>const*> taskQueue;                    // 任务队列
         std::vector<std::thread> threadPool;           // 线程池
         std::shared_mutex mutex;                       // 读写锁
         int core_num;                                  // 核心线程数
@@ -128,9 +129,9 @@ structure::ThreadPool::ThreadPool(int core_num, int max_num) {
                 // 从任务队列中取出任务
                 std::unique_lock<std::shared_mutex> lock(mutex);
                 if (!taskQueue.empty()) {
-                    auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                    const std::function<void(void *)> *task = taskQueue.pop();
                     // 执行任务
-                    task(nullptr);
+                    (*task)(nullptr);
                     task_num--;
                 }
                 lock.unlock();
@@ -155,14 +156,14 @@ structure::ThreadPool::~ThreadPool() {
 }
 
 // 添加任务
-void structure::ThreadPool::addTask(void (*task)(void*)) {
+void structure::ThreadPool::addTask(std::function<void(void*)>const* task) {
     // 检查参数
     if (task == nullptr) {
         throw std::invalid_argument("invalid argument");
     }
 
     // 添加任务
-    taskQueue.push((void*)task);
+    taskQueue.push(task);
 
     // 任务数加一
     task_num++;
@@ -179,9 +180,9 @@ void structure::ThreadPool::addTask(void (*task)(void*)) {
                 // 从任务队列中取出任务
                 std::unique_lock<std::shared_mutex> lock(mutex);
                 if (!taskQueue.empty()) {
-                    auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                    const std::function<void(void *)> *task = taskQueue.pop();
                     // 执行任务
-                    task(nullptr);
+                    (*task)(nullptr);
                     task_num--;
                 }
                 lock.unlock();
@@ -209,8 +210,8 @@ void structure::ThreadPool::destroy() {
     }
     lock1.unlock();
     // 注入任务
-    auto lambda = [](void* data) {
-        // pass
+    std::function<void(void *)> lambda = [&](void *) {
+        // 空任务
     };
     std::unique_lock<std::shared_mutex> lock2(mutex);
     for (int i = 0; i < threadPool.size(); i++) {

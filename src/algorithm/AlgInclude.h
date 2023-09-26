@@ -52,6 +52,8 @@ namespace algorithm {
         [[nodiscard]] double getTime() const;
 
         void reset();
+
+        bool flag = true;
     };
 
     template<typename T, typename NT>
@@ -63,8 +65,9 @@ namespace algorithm {
 
         void merge(T &arr, int begin1, int end1, int begin2, int end2, bool (*compare)(NT, NT), Evaluate& evaluate);
 
-        void sortInsertion(T& arr, int begin, int end, bool (*compare)(NT, NT), Evaluate& evaluate);
-        void sortStack(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate);
+        void sortStack(T &arr, int begin, int end, bool (&compare)(NT, NT), algorithm::Evaluate& evaluate, int deep = 0);
+        void sortInsertion(T& arr, int begin, int end, bool (&compare)(NT, NT), algorithm::Evaluate& evaluate);
+        int threeGetMid(T &arr, int a, int b, int c, bool (&compare)(NT, NT), algorithm::Evaluate& evaluate);
     public:
         void insertionSort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
 
@@ -84,7 +87,8 @@ namespace algorithm {
 
         const static char* demo();
 
-        void sort(T &arr, bool (*compare)(NT, NT), Evaluate& evaluate);
+        void sort(T &arr, bool (*compare)(NT, NT), algorithm::Evaluate& evaluate);
+        unsigned int max_deep = 12; //  最大递归深度 线程数 = 2^max_deep
     };
 
 }

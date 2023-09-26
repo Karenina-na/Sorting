@@ -25,12 +25,16 @@ void algorithm::Evaluate::end(){
 
 // 比较次数加一
 void algorithm::Evaluate::addCompCount(int n){
-    this->compCount += n;
+    if (flag){
+        this->compCount += n;
+    }
 }
 
 // 移动次数加一
 void algorithm::Evaluate::addMoveCount(int n){
-    this->moveCount += n;
+    if (flag){
+        this->moveCount += n;
+    }
 }
 
 // 获取比较次数

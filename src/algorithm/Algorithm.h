@@ -2,11 +2,10 @@
 // Created by Karenina-na on 2023/9/18.
 //
 
-#include "AlgInclude.h"
-
 #ifndef SORTING_ALGORITHM_INTERFACE_FRAMEWORK_ALGORITHM_H
 #define SORTING_ALGORITHM_INTERFACE_FRAMEWORK_ALGORITHM_H
 
+#include "AlgInclude.h"
 #include "Demo.cpp"
 #include "BubbleSort.cpp"
 #include "InsertionSort.cpp"
