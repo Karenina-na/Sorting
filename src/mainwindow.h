@@ -15,6 +15,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    // 事件与状态声明
+    void on_pushButton_clicked();
+    int num = 0;
+
 private:
     Ui::MainWindow *ui;
 };
