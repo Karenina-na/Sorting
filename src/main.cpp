@@ -3,6 +3,9 @@
 #include "BidirectionalLinkList.h"
 #include <iostream>
 
+#include "mainwindow.h"
+#include <QApplication>
+
 
 structure::BidirectionalLinkList<int>* create(int n){
     // 随机生成数据插入链表
@@ -178,5 +181,9 @@ int main(int argc, char *argv[]) {
     std::cout << algorithm::Algorithm<int, int>::demo() << std::endl;
     structure::BidirectionalLinkList<int> *list = create(1000000);
     testAlgorithm(*list, false, false, true);
-    return 0;
+
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
 }
