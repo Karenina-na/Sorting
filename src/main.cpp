@@ -178,12 +178,8 @@ void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show, bool f
 }
 
 int main(int argc, char *argv[]) {
-    std::cout << algorithm::Algorithm<int, int>::demo() << std::endl;
-    structure::BidirectionalLinkList<int> *list = create(1000000);
-    testAlgorithm(*list, false, false, true);
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();
+    return QApplication::exec();
 }
