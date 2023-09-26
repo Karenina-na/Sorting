@@ -42,6 +42,9 @@ namespace structure{
 
         void addTask(void (*task)(void*));              // 添加任务
         void destroy();                                // 销毁线程池
+        int getActiveNum();                            // 活动线程数
+        int getTaskNum();                              // 任务数
+        bool isRunning();                              // 是否运行
 
     private:
         SafeQueue<void*> taskQueue;                    // 任务队列
@@ -124,14 +127,19 @@ structure::ThreadPool::ThreadPool(int core_num, int max_num) {
 
                 // 从任务队列中取出任务
                 std::unique_lock<std::shared_mutex> lock(mutex);
-                auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                if (!taskQueue.empty()) {
+                    auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                    // 执行任务
+                    task(nullptr);
+                    task_num--;
+                }
                 lock.unlock();
 
-                // 执行任务
-                task(nullptr);
+                // 休眠2ms
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
-                // 如果活动线程大于核心线程，销毁线程
-                if (active_num > this->core_num || !is_running) {
+                // 如果活动线程大于核心线程和活动线程大于任务数量，销毁线程
+                if ((active_num > this->core_num && active_num > task_num) || !is_running) {
                     active_num--;
                     break;
                 }
@@ -170,14 +178,19 @@ void structure::ThreadPool::addTask(void (*task)(void*)) {
 
                 // 从任务队列中取出任务
                 std::unique_lock<std::shared_mutex> lock(mutex);
-                auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                if (!taskQueue.empty()) {
+                    auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                    // 执行任务
+                    task(nullptr);
+                    task_num--;
+                }
                 lock.unlock();
 
-                // 执行任务
-                task(nullptr);
+                // 休眠2ms
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
-                // 如果活动线程大于核心线程，销毁线程
-                if (active_num > this->core_num || !is_running) {
+                // 如果活动线程大于核心线程和活动线程大于任务数量，销毁线程
+                if ((active_num > this->core_num && active_num > task_num) || !is_running) {
                     active_num--;
                     break;
                 }
@@ -211,6 +224,25 @@ void structure::ThreadPool::destroy() {
         }
     }
     threadPool.clear();
+}
+
+// 查看状态
+// 活动线程数
+int structure::ThreadPool::getActiveNum() {
+    // 活动线程数
+    return active_num.load();
+}
+
+// 任务数
+int structure::ThreadPool::getTaskNum() {
+    // 任务数
+    return task_num.load();
+}
+
+// 是否运行
+bool structure::ThreadPool::isRunning() {
+    // 是否运行
+    return is_running.load();
 }
 
 #endif //SORTING_ALGORITHM_INTERFACE_FRAMEWORK_THREADPOOL_H
