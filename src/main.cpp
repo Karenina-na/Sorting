@@ -1,6 +1,7 @@
 #include "Algorithm.h"
 #include "Distribution.h"
-#include "BidirectionalLinkList.cc"
+#include "BidirectionalLinkList.h"
+#include "ThreadPool.h"
 
 #include <iostream>
 
@@ -187,6 +188,25 @@ int main(int argc, char *argv[]) {
     algorithm.quickSort(*l2, algorithm::Compare::greater, evaluate);
     checkForGreater(*l2);
     std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+
+    structure::ThreadPool pool(2, 10);
+    auto lambda1 = [](void* data) {
+        // 睡眠一秒钟
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout<<"hello"<<std::endl;
+    };
+    auto lambda2 = [](void* data) {
+        // 睡眠一秒钟
+        std::cout<<"hello"<<std::endl;
+    };
+
+    pool.addTask(lambda1);
+    pool.addTask(lambda2);
+
+    std::cout<<"hello1"<<std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    pool.destroy();
 
     return 0;
 }

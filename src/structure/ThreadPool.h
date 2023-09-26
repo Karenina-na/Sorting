@@ -46,7 +46,7 @@ namespace structure{
     private:
         SafeQueue<void*> taskQueue;                    // 任务队列
         std::vector<std::thread> threadPool;           // 线程池
-        std::mutex mutex;                              // 互斥锁
+        std::shared_mutex mutex;                       // 读写锁
         int core_num;                                  // 核心线程数
         int max_num;                                   // 最大线程数
         std::atomic<int> active_num{};                   // 活动线程数
@@ -62,6 +62,7 @@ void structure::SafeQueue<T>::push(T t) {
     // 入队
     std::unique_lock<std::shared_mutex> lock(mutex);
     queue.push(t);
+    lock.unlock();
 }
 
 // 出队
@@ -71,6 +72,7 @@ T structure::SafeQueue<T>::pop() {
     std::unique_lock<std::shared_mutex> lock(mutex);
     T t = queue.front();
     queue.pop();
+    lock.unlock();
     return t;
 }
 
@@ -79,7 +81,9 @@ template<typename T>
 bool structure::SafeQueue<T>::empty() {
     // 判空
     std::shared_lock<std::shared_mutex> lock(mutex);
-    return queue.empty();
+    bool empty = queue.empty();
+    lock.unlock();
+    return empty;
 }
 
 // 队列大小
@@ -87,7 +91,9 @@ template<typename T>
 int structure::SafeQueue<T>::size() {
     // 队列大小
     std::shared_lock<std::shared_mutex> lock(mutex);
-    return queue.size();
+    int size = queue.size();
+    lock.unlock();
+    return size;
 }
 
 // 线程池
@@ -112,9 +118,14 @@ structure::ThreadPool::ThreadPool(int core_num, int max_num) {
         active_num++;
         threadPool.emplace_back([this](){
             while (true) {
+                if (!is_running) {
+                    break;
+                }
 
                 // 从任务队列中取出任务
-                auto (*task)(void*) = (void (*)(void*))taskQueue.pop();
+                std::unique_lock<std::shared_mutex> lock(mutex);
+                auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                lock.unlock();
 
                 // 执行任务
                 task(nullptr);
@@ -158,7 +169,9 @@ void structure::ThreadPool::addTask(void (*task)(void*)) {
                 }
 
                 // 从任务队列中取出任务
+                std::unique_lock<std::shared_mutex> lock(mutex);
                 auto (*task)(void *) = (void (*)(void *)) taskQueue.pop();
+                lock.unlock();
 
                 // 执行任务
                 task(nullptr);
@@ -177,9 +190,21 @@ void structure::ThreadPool::addTask(void (*task)(void*)) {
 void structure::ThreadPool::destroy() {
     // 销毁线程池
     is_running = false;
+    std::unique_lock<std::shared_mutex> lock1(mutex);
     while (!taskQueue.empty()) {
         taskQueue.pop();
     }
+    lock1.unlock();
+    // 注入任务
+    auto lambda = [](void* data) {
+        // pass
+    };
+    std::unique_lock<std::shared_mutex> lock2(mutex);
+    for (int i = 0; i < threadPool.size(); i++) {
+        taskQueue.push(&lambda);
+    }
+    lock2.unlock();
+    // 等待线程结束
     for (auto & i : threadPool) {
         if (i.joinable()) {
             i.join();
