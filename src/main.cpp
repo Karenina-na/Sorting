@@ -110,11 +110,13 @@ void testDistribution(int n){
     std::cout<<std::endl<<std::endl;
 }
 
-void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show, bool flag){
+void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show, bool flag, bool use_thread){
     algorithm::Evaluate evaluate;
     evaluate.flag = flag;
     structure::BidirectionalLinkList<int> *l;
     algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
+    algorithm.use_thread = use_thread;
+    algorithm.max_deep = 8;
 
     // 从小到大
     l = list.copy();
@@ -174,7 +176,7 @@ void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show, bool f
 
 int main(int argc, char *argv[]) {
     std::cout << algorithm::Algorithm<int, int>::demo() << std::endl;
-    structure::BidirectionalLinkList<int> *list = create(10000000);
-    testAlgorithm(*list, false, false);
+    structure::BidirectionalLinkList<int> *list = create(1000000);
+    testAlgorithm(*list, false, false, true);
     return 0;
 }

@@ -88,7 +88,8 @@ namespace algorithm {
         const static char* demo();
 
         void sort(T &arr, bool (*compare)(NT, NT), algorithm::Evaluate& evaluate);
-        unsigned int max_deep = 12; //  最大递归深度 线程数 = 2^max_deep
+        unsigned int max_deep = 8; //  最大递归深度 线程数 = 2^max_deep
+        bool use_thread = false; // 是否使用多线程
     };
 
 }

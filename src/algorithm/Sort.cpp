@@ -34,7 +34,7 @@ void algorithm::Algorithm<T, NT>::sort(T &arr, bool (*compare)(NT, NT), algorith
     evaluate.end();
 }
 
-// 快速排序(并发版)
+// 快速排序
 template<typename T, typename NT>
 void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&compare)(NT, NT), algorithm::Evaluate& evaluate, int deep) {
 
@@ -78,8 +78,7 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
         if (i - 1 - begin < 20) {
             sortInsertion(arr, begin, i - 1, compare, evaluate);
         } else {
-//            sortStack(arr, begin, i - 1, compare, evaluate);
-            if (deep < max_deep) {
+            if (deep < max_deep && use_thread) {
                 left = true;
             } else {
                 sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
@@ -92,8 +91,7 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
         if (end - i - 1 < 20) {
             sortInsertion(arr, i + 1, end, compare, evaluate);
         } else {
-//            sortStack(arr, i + 1, end, compare, evaluate);
-            if (deep < max_deep) {
+            if (deep < max_deep && use_thread) {
                 right = true;
             } else {
                 sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
