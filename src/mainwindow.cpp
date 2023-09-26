@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // 链接信号
-    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
+//    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -18,7 +18,7 @@ MainWindow::~MainWindow()
 }
 
 // 单击按钮事件
-void MainWindow::on_pushButton_clicked(){
-    num++;
-    ui->textBrowser->setText(QString::number(num));
-}
+//void MainWindow::on_pushButton_clicked(){
+//    num++;
+//    ui->textBrowser->setText(QString::number(num));
+//}
