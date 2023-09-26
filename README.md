@@ -71,9 +71,11 @@ cmake --build .
 
 In our project, we have utilized a variety of deep learning frameworks and related libraries. Here is our primary technology stack:
 
-- STL
-- C++
-- Qt
+- g++   12.2.0
+- ninja 1.7.2
+- make  4.3
+- Qt    5.15.2
+- cmake 3.25.3
 
 ## 🤝 Contribution Guide
 
