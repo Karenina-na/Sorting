@@ -1,15 +1,8 @@
 #include "Algorithm.h"
-#include "AlgInclude.cc"
 #include "Distribution.h"
-#include "DisInclude.cc"
 #include "BidirectionalLinkList.cc"
-#include "ThreadPool.cc"
 
 #include <iostream>
-#include <cstdlib>
-#include <vector>
-#include <ctime>
-#include <algorithm>
 
 structure::BidirectionalLinkList<int>* create(int n){
     // 随机生成数据插入链表
@@ -179,23 +172,21 @@ void testAlgorithm(structure::BidirectionalLinkList<int>& list,bool show){
 }
 
 int main(int argc, char *argv[]) {
-    std::cout<<algorithm::Algorithm<int, int>::demo()<<std::endl;
+    std::cout << algorithm::Algorithm<int, int>::demo() << std::endl;
 
-//    distribution::Uniform<int> uniform(10000000, 0, 10000000);
-//    algorithm::Algorithm<std::vector<int>, int> algorithm{};
-//    algorithm::Evaluate evaluate;
-//
-//    std::vector<int> *l1 = uniform.generate();
-//    algorithm.sort(*l1, algorithm::Compare::greater, evaluate);
-//    checkForGreater(*l1);
-//    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
-//
-//    std::vector<int> *l2 = uniform.generate();
-//    algorithm.quickSort(*l2, algorithm::Compare::greater, evaluate);
-//    checkForGreater(*l2);
-//    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+    distribution::Uniform<int> uniform(1000, 0, 10000000);
+    algorithm::Algorithm<std::vector<int>, int> algorithm{};
+    algorithm::Evaluate evaluate;
 
-    structure::ThreadPool pool(2, 10);
+    std::vector<int> *l1 = uniform.generate();
+    algorithm.sort(*l1, algorithm::Compare::greater, evaluate);
+    checkForGreater(*l1);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
+
+    std::vector<int> *l2 = uniform.generate();
+    algorithm.quickSort(*l2, algorithm::Compare::greater, evaluate);
+    checkForGreater(*l2);
+    std::cout<<"time: "<<evaluate.getTime()<<std::endl;
 
     return 0;
 }

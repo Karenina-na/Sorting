@@ -1,7 +1,7 @@
 //
 // Created by Karenina-na on 2023/9/17.
 //
-#include "Algorithm.h"
+#include "AlgInclude.h"
 
 // 希尔排序
 template<typename T, typename NT>

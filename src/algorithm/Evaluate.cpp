@@ -3,7 +3,7 @@
 //
 
 #include <ctime>
-#include "Algorithm.h"
+#include "AlgInclude.h"
 
 // 评估器
 algorithm::Evaluate::Evaluate(){

@@ -1,7 +1,7 @@
 //
 // Created by Karenina-na on 2023/9/21.
 //
-#include "Distribution.h"
+#include "DisInclude.h"
 
 // 生成随机数
 template<typename T>

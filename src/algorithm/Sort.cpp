@@ -2,8 +2,7 @@
 // Created by Karenina-na on 2023/9/21.
 //
 
-#include "Algorithm.h"
-#include "ThreadPool.cc"
+#include "AlgInclude.h"
 
 // 排序
 template<typename T, typename NT>

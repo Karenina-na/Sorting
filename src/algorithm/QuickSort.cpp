@@ -1,9 +1,7 @@
 //
 // Created by Karenina-na on 2023/9/17.
 //
-#include "Algorithm.h"
-#include <stack>
-#include <iostream>
+#include "AlgInclude.h"
 
 // 快速排序
 template<typename T, typename NT>
@@ -32,7 +30,7 @@ void algorithm::Algorithm<T, NT>::quickSort(T &arr, bool (*compare)(NT, NT), Eva
 
 // 单次快速排序
 template<typename T, typename NT>
-void algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end,bool (*compare)(NT, NT), Evaluate& evaluate){
+void algorithm::Algorithm<T, NT>::partSort(T& arr, int begin, int end, bool (*compare)(NT, NT), Evaluate& evaluate){
 
     // 寄存key值
     NT temp = arr[begin];

@@ -1,7 +1,7 @@
 //
 // Created by Karenina-na on 2023/9/17.
 //
-#include "algorithm.h"
+#include "AlgInclude.h"
 
 // 插入排序
 template<typename T, typename NT>
