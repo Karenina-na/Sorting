@@ -15,6 +15,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+    // parameters
     void on_data_input_uniform_button_clicked();
     void on_data_input_poisson_button_clicked();
     void on_data_input_gaussian_button_clicked();
@@ -22,5 +23,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    bool first_flag = true;
+
+    // store parameters
+    unsigned int seed{};
+    int size{};
+    int min{};
+    int max{};
+    double lambda_p{};
+    double lambda_e{};
+    double mean{};
+    double stddev{};
 };
 #endif // MAINWINDOW_H
