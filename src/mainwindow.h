@@ -12,12 +12,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
-    // 事件与状态声明
-//    void on_pushButton_clicked();
-//    int num = 0;
+    void on_data_input_uniform_button_clicked();
+    void on_data_input_poisson_button_clicked();
+    void on_data_input_gaussian_button_clicked();
+    void on_data_input_exponential_button_clicked();
 
 private:
     Ui::MainWindow *ui;

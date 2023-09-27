@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <string>
+#include "ui/distributionwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,8 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // 链接信号
-//    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
+    connect(ui->data_input_uniform_button, &QPushButton::clicked, this, &MainWindow::on_data_input_uniform_button_clicked);
+    connect(ui->data_input_poisson_button, &QPushButton::clicked, this, &MainWindow::on_data_input_poisson_button_clicked);
+    connect(ui->data_input_exponential_button, &QPushButton::clicked, this, &MainWindow::on_data_input_exponential_button_clicked);
+    connect(ui->data_input_gaussian_button, &QPushButton::clicked, this, &MainWindow::on_data_input_gaussian_button_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -17,8 +19,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// 单击按钮事件
-//void MainWindow::on_pushButton_clicked(){
-//    num++;
-//    ui->textBrowser->setText(QString::number(num));
-//}
+void MainWindow::on_data_input_uniform_button_clicked() {
+    auto* distributionWindow = new DistributionWindow(this);
+    distributionWindow->show();
+}
+
+void MainWindow::on_data_input_poisson_button_clicked() {
+    auto* distributionWindow = new DistributionWindow(this);
+    distributionWindow->show();
+}
+
+void MainWindow::on_data_input_exponential_button_clicked() {
+    auto* distributionWindow = new DistributionWindow(this);
+    distributionWindow->show();
+}
+
+void MainWindow::on_data_input_gaussian_button_clicked() {
+    auto* distributionWindow = new DistributionWindow(this);
+    distributionWindow->show();
+}
+

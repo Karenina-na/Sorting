@@ -41,7 +41,7 @@
    <iconset theme="accessories-calculator">
     <normaloff>.</normaloff>.</iconset>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="Data_Input_Layout">
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
@@ -81,7 +81,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QTextBrowser" name="textBrowser">
+          <widget class="QTextBrowser" name="data_input_parameter_show">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
