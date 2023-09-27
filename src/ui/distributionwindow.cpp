@@ -230,7 +230,27 @@ void DistributionWindow::on_buttonBox_click_reject() {
 
 // param update
 void DistributionWindow::on_distribution_change() {
-
+    QPainter painter(ui->function_show);
+    // get parameters
+    int max = ui->max_input->text().toInt();
+    int min = ui->min_input->text().toInt();
+    int size = ui->size_input->text().toInt();
+    double lambda_p = ui->param1_input->text().toDouble();
+    double lambda_e = ui->param1_input->text().toDouble();
+    double mean = ui->param1_input->text().toDouble();
+    double stddev = ui->param2_input->text().toDouble();
+    // draw coordinate
+    painter.drawLine(0, 0, 0, ui->function_show->height());
+    painter.drawLine(0, ui->function_show->height(), ui->function_show->width(), ui->function_show->height());
+    // draw function
+    switch(distribution){
+        case 0: // uniform
+            break;
+        case 1: // poisson
+            break;
+        case 2: // exponential
+            break;
+    }
 }
 
 

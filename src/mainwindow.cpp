@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "ui/distributionwindow.h"
+#include "ui/functionqwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->data_input_poisson_button, &QPushButton::clicked, this, &MainWindow::on_data_input_poisson_button_clicked);
     connect(ui->data_input_exponential_button, &QPushButton::clicked, this, &MainWindow::on_data_input_exponential_button_clicked);
     connect(ui->data_input_gaussian_button, &QPushButton::clicked, this, &MainWindow::on_data_input_gaussian_button_clicked);
+
+    // QSideBar
+    connect(ui->data_input_distribution_horizontal_slider, &QSlider::valueChanged, this, &MainWindow::on_data_input_distribution_horizontal_slider_valueChanged);
+    connect(ui->data_input_distribution_vertical_slider, &QSlider::valueChanged, this, &MainWindow::on_data_input_distribution_vertical_slider_valueChanged);
+
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +45,7 @@ void MainWindow::on_data_input_uniform_button_clicked() {
         lambda_e = distributionWindow->lambda_e;
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
+        distribution = distributionWindow->distribution;
     }
 
     // show param
@@ -69,6 +76,7 @@ void MainWindow::on_data_input_poisson_button_clicked() {
         lambda_e = distributionWindow->lambda_e;
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
+        distribution = distributionWindow->distribution;
     }
 
     // show param
@@ -101,6 +109,7 @@ void MainWindow::on_data_input_exponential_button_clicked() {
         lambda_e = distributionWindow->lambda_e;
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
+        distribution = distributionWindow->distribution;
     }
 
     // show param
@@ -133,6 +142,7 @@ void MainWindow::on_data_input_gaussian_button_clicked() {
         lambda_e = distributionWindow->lambda_e;
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
+        distribution = distributionWindow->distribution;
     }
 
     // show param
@@ -143,6 +153,19 @@ void MainWindow::on_data_input_gaussian_button_clicked() {
                     + "mean: " + QString::number(this->mean) + "\n"
                     + "stddev: " + QString::number(this->stddev) + "\n";
     ui->data_input_parameter_show->setText(param);
+}
+
+// QSideBar
+void MainWindow::on_data_input_distribution_horizontal_slider_valueChanged(int value) {
 
 }
 
+void MainWindow::on_data_input_distribution_vertical_slider_valueChanged(int value) {
+
+}
+
+// recreate functionqwidget
+void MainWindow::recreate_functionqwidget() {
+    // 子窗口重绘
+    ui->data_input_distribution_preview->update();
+}
