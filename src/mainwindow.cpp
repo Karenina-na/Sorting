@@ -46,6 +46,16 @@ void MainWindow::on_data_input_uniform_button_clicked() {
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
         distribution = distributionWindow->distribution;
+
+        // recreate functionqwidget
+        ui->data_input_distribution_preview->min = min;
+        ui->data_input_distribution_preview->max = max;
+        ui->data_input_distribution_preview->lambda_p = lambda_p;
+        ui->data_input_distribution_preview->lambda_e = lambda_e;
+        ui->data_input_distribution_preview->mean = mean;
+        ui->data_input_distribution_preview->stddev = stddev;
+        ui->data_input_distribution_preview->distribution = distribution;
+        recreate_functionqwidget();
     }
 
     // show param
@@ -77,6 +87,16 @@ void MainWindow::on_data_input_poisson_button_clicked() {
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
         distribution = distributionWindow->distribution;
+
+        // recreate functionqwidget
+        ui->data_input_distribution_preview->min = min;
+        ui->data_input_distribution_preview->max = max;
+        ui->data_input_distribution_preview->lambda_p = lambda_p;
+        ui->data_input_distribution_preview->lambda_e = lambda_e;
+        ui->data_input_distribution_preview->mean = mean;
+        ui->data_input_distribution_preview->stddev = stddev;
+        ui->data_input_distribution_preview->distribution = distribution;
+        recreate_functionqwidget();
     }
 
     // show param
@@ -110,6 +130,16 @@ void MainWindow::on_data_input_exponential_button_clicked() {
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
         distribution = distributionWindow->distribution;
+
+        // recreate functionqwidget
+        ui->data_input_distribution_preview->min = min;
+        ui->data_input_distribution_preview->max = max;
+        ui->data_input_distribution_preview->lambda_p = lambda_p;
+        ui->data_input_distribution_preview->lambda_e = lambda_e;
+        ui->data_input_distribution_preview->mean = mean;
+        ui->data_input_distribution_preview->stddev = stddev;
+        ui->data_input_distribution_preview->distribution = distribution;
+        recreate_functionqwidget();
     }
 
     // show param
@@ -143,6 +173,16 @@ void MainWindow::on_data_input_gaussian_button_clicked() {
         mean = distributionWindow->mean;
         stddev = distributionWindow->stddev;
         distribution = distributionWindow->distribution;
+
+        // recreate functionqwidget
+        ui->data_input_distribution_preview->min = min;
+        ui->data_input_distribution_preview->max = max;
+        ui->data_input_distribution_preview->lambda_p = lambda_p;
+        ui->data_input_distribution_preview->lambda_e = lambda_e;
+        ui->data_input_distribution_preview->mean = mean;
+        ui->data_input_distribution_preview->stddev = stddev;
+        ui->data_input_distribution_preview->distribution = distribution;
+        recreate_functionqwidget();
     }
 
     // show param
@@ -157,15 +197,16 @@ void MainWindow::on_data_input_gaussian_button_clicked() {
 
 // QSideBar
 void MainWindow::on_data_input_distribution_horizontal_slider_valueChanged(int value) {
-
+    ui->data_input_distribution_preview->horizontal_slider_value = value;
+    recreate_functionqwidget();
 }
 
 void MainWindow::on_data_input_distribution_vertical_slider_valueChanged(int value) {
-
+    ui->data_input_distribution_preview->vertical_slider_value = value;
+    recreate_functionqwidget();
 }
 
 // recreate functionqwidget
 void MainWindow::recreate_functionqwidget() {
-    // 子窗口重绘
     ui->data_input_distribution_preview->update();
 }

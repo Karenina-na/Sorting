@@ -36,31 +36,6 @@ DistributionWindow::~DistributionWindow()
     delete ui;
 }
 
-// pdf
-double DistributionWindow::pdf_u(double x, int min, int max) {
-    return 1.0 / (max - min + 1);
-}
-
-double DistributionWindow::pdf_g(double x, int min, int max, double mean, double stddev) {
-    // 1 / (sita * sqrt(2 * pi)) * exp(-1 * (x - u)^2 / (2 * sita^2)
-    return 1.0 / (stddev * sqrt(2 * M_PI)) * exp(-1.0 * (x - mean) * (x - mean) / (2 * stddev * stddev));
-}
-
-double DistributionWindow::pdf_p(double x, int min, int max, double lambda) {
-    // (lambda^x / x!) * exp(-1 * lambda)
-    double result = 1;
-    for (int i = 1; i <= x; i++){
-        result *= lambda / i;
-    }
-    result *= exp(-1 * lambda);
-    return result;
-}
-
-double DistributionWindow::pdf_e(double x, int min, int max, double lambda) {
-    // lambda * exp(-1 * lambda * x)
-    return lambda * exp(-1 * lambda * x);
-}
-
 // set param
 void DistributionWindow::set_default_param(){
     // set param text

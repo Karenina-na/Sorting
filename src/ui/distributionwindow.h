@@ -26,20 +26,16 @@ public:
     int max{};
 
     // uniform parameters
-    static double pdf_u(double x, int min, int max);
 
     // gaussian parameters
     double mean{};
     double stddev{};
-    static double pdf_g(double x, int min, int max, double mean, double stddev);
 
     // poisson parameters
     double lambda_p{};
-    static double pdf_p(double x, int min, int max, double lambda);
 
     // exponential parameters
     double lambda_e{};
-    static double pdf_e(double x, int min, int max, double lambda2);
 
     // button signal
     void on_buttonBox_click_accept();
