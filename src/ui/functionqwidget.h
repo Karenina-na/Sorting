@@ -8,7 +8,7 @@ class FunctionQWidget : public QWidget
 public:
     explicit FunctionQWidget(QWidget *parent = nullptr );
 
-    int min = -10;
+    int min = 0;
     int max = 10;
     double lambda_p = 1;
     double lambda_e = 1;

@@ -44,12 +44,18 @@ public:
     // param update
     void on_distribution_change();
 
+    // QSideBar
+    void on_horizontal_slider_valueChanged(int value);
+    void on_vertical_slider_valueChanged(int value);
+
 private:
     Ui::DistributionWindow *ui;
 
     // set param
     void set_default_param();
     void set_param(int max, int min, int size, unsigned int seed,
-                   double lambda_p, double lambda_e, double mean, double stddev);
+                    double lambda_p, double lambda_e, double mean, double stddev);
+
+    void recreate_functionqwidget();
 };
 #endif //DISTRIBUTIONWINDOW_H

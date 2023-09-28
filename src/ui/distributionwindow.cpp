@@ -25,11 +25,16 @@ DistributionWindow::DistributionWindow(QWidget *parent, bool first_change,
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &DistributionWindow::on_buttonBox_click_accept);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &DistributionWindow::on_buttonBox_click_reject);
 
-    connect(ui->max_input, &QLineEdit::editingFinished, this, &DistributionWindow::on_distribution_change);
-    connect(ui->min_input, &QLineEdit::editingFinished, this, &DistributionWindow::on_distribution_change);
-    connect(ui->size_input, &QLineEdit::editingFinished, this, &DistributionWindow::on_distribution_change);
-    connect(ui->param1_input, &QLineEdit::editingFinished, this, &DistributionWindow::on_distribution_change);
-    connect(ui->param2_input, &QLineEdit::editingFinished, this, &DistributionWindow::on_distribution_change);
+    connect(ui->max_input, &QLineEdit::textChanged, this, &DistributionWindow::on_distribution_change);
+    connect(ui->min_input, &QLineEdit::textChanged, this, &DistributionWindow::on_distribution_change);
+    connect(ui->size_input, &QLineEdit::textChanged, this, &DistributionWindow::on_distribution_change);
+    connect(ui->param1_input, &QLineEdit::textChanged, this, &DistributionWindow::on_distribution_change);
+    connect(ui->param2_input, &QLineEdit::textChanged, this, &DistributionWindow::on_distribution_change);
+
+    // QSideBar
+    connect(ui->horizontalSlider, &QSlider::valueChanged, this, &DistributionWindow::on_horizontal_slider_valueChanged);
+    connect(ui->verticalSlider, &QSlider::valueChanged, this, &DistributionWindow::on_vertical_slider_valueChanged);
+
 }
 DistributionWindow::~DistributionWindow()
 {
@@ -39,7 +44,7 @@ DistributionWindow::~DistributionWindow()
 // set param
 void DistributionWindow::set_default_param(){
     // set param text
-    ui->max_input->setText("100");
+    ui->max_input->setText("10");
     ui->min_input->setText("0");
     ui->size_input->setText("100");
     std::default_random_engine generator;
@@ -83,7 +88,7 @@ void DistributionWindow::set_param(int max, int min, int size, unsigned int seed
     if (max != 0){
         this->max = max;
     }else{
-        this->max = 100;
+        this->max = 10;
     }
     if (min != 0){
         this->min = min;
@@ -205,27 +210,31 @@ void DistributionWindow::on_buttonBox_click_reject() {
 
 // param update
 void DistributionWindow::on_distribution_change() {
-    QPainter painter(ui->function_show);
-    // get parameters
-    int max = ui->max_input->text().toInt();
-    int min = ui->min_input->text().toInt();
-    int size = ui->size_input->text().toInt();
-    double lambda_p = ui->param1_input->text().toDouble();
-    double lambda_e = ui->param1_input->text().toDouble();
-    double mean = ui->param1_input->text().toDouble();
-    double stddev = ui->param2_input->text().toDouble();
-    // draw coordinate
-    painter.drawLine(0, 0, 0, ui->function_show->height());
-    painter.drawLine(0, ui->function_show->height(), ui->function_show->width(), ui->function_show->height());
-    // draw function
-    switch(distribution){
-        case 0: // uniform
-            break;
-        case 1: // poisson
-            break;
-        case 2: // exponential
-            break;
-    }
+    // set param
+    ui->function_show->max = ui->max_input->text().toInt();
+    ui->function_show->min = ui->min_input->text().toInt();
+    ui->function_show->lambda_p = ui->param1_input->text().toDouble();
+    ui->function_show->lambda_e = ui->param1_input->text().toDouble();
+    ui->function_show->mean = ui->param1_input->text().toDouble();
+    ui->function_show->stddev = ui->param2_input->text().toDouble();
+    ui->function_show->distribution = distribution;
+
+    // recreate functionqwidget
+    recreate_functionqwidget();
 }
 
+// recreate functionqwidget
+void DistributionWindow::recreate_functionqwidget() {
+    ui->function_show->update();
+}
 
+// QSideBar
+void DistributionWindow::on_horizontal_slider_valueChanged(int value) {
+    ui->function_show->horizontal_slider_value = value;
+    recreate_functionqwidget();
+}
+
+void DistributionWindow::on_vertical_slider_valueChanged(int value) {
+    ui->function_show->vertical_slider_value = value;
+    recreate_functionqwidget();
+}

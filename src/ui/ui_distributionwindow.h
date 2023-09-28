@@ -76,12 +76,17 @@ public:
 
         verticalSlider = new QSlider(layoutWidget);
         verticalSlider->setObjectName("verticalSlider");
+        verticalSlider->setMinimum(15);
+        verticalSlider->setValue(25);
         verticalSlider->setOrientation(Qt::Vertical);
 
         function_show_layout->addWidget(verticalSlider, 0, 1, 2, 1);
 
         horizontalSlider = new QSlider(layoutWidget);
         horizontalSlider->setObjectName("horizontalSlider");
+        horizontalSlider->setMinimum(2);
+        horizontalSlider->setMaximum(50);
+        horizontalSlider->setValue(35);
         horizontalSlider->setOrientation(Qt::Horizontal);
 
         function_show_layout->addWidget(horizontalSlider, 1, 0, 1, 1);
