@@ -209,6 +209,8 @@ void structure::ThreadPool::destroy() {
         taskQueue.pop();
     }
     lock1.unlock();
+    // 修改核心线程数，防止线程池创建新线程
+    core_num = 0;
     // 注入任务
     std::function<void(void *)> lambda = [&](void *) {
         // 空任务
