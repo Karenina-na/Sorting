@@ -3,7 +3,7 @@
 #include "BidirectionalLinkList.h"
 #include <iostream>
 
-#include "mainwindow.h"
+#include "ui/mainwindow.h"
 #include <QApplication>
 
 

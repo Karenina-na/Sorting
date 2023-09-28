@@ -22,9 +22,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
 qt_add_executable(${PROJECT_NAME}
         MANUAL_FINALIZATION
         src/main.cpp
-        src/mainwindow.cpp
-        src/mainwindow.h
-        src/mainwindow.ui
+        src/ui/mainwindow.cpp
+        src/ui/mainwindow.h
+        src/ui/mainwindow.ui
         ${UI_FILES}
 )
 add_subdirectory(src) # src/CMakeLists.txt

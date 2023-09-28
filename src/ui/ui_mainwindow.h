@@ -22,7 +22,7 @@
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "ui/functionqwidget.h"
+#include "functionqwidget.h"
 
 QT_BEGIN_NAMESPACE
 

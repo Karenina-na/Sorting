@@ -344,7 +344,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <customwidget>
    <class>FunctionQWidget</class>
    <extends>QWidget</extends>
-   <header>ui/functionqwidget.h</header>
+   <header>functionqwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

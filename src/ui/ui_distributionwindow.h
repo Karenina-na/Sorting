@@ -21,6 +21,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "functionqwidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -30,7 +31,7 @@ public:
     QWidget *layoutWidget;
     QGridLayout *gridLayout;
     QGridLayout *function_show_layout;
-    QWidget *function_show;
+    FunctionQWidget *function_show;
     QSlider *verticalSlider;
     QSlider *horizontalSlider;
     QGridLayout *input_data_layout;
@@ -68,7 +69,7 @@ public:
         function_show_layout = new QGridLayout();
         function_show_layout->setSpacing(10);
         function_show_layout->setObjectName("function_show_layout");
-        function_show = new QWidget(layoutWidget);
+        function_show = new FunctionQWidget(layoutWidget);
         function_show->setObjectName("function_show");
 
         function_show_layout->addWidget(function_show, 0, 0, 1, 1);
