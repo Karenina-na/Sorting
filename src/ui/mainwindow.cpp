@@ -7,6 +7,7 @@
 #include <QScrollBar>
 #include <mutex>
 #include <shared_mutex>
+#include "Algorithm.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -44,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->data_loader_button, &QPushButton::clicked, this, &MainWindow::on_data_loader_button_clicked);
     connect(ui->data_loader_sort_checkbox, &QCheckBox::stateChanged, this, &MainWindow::on_data_loader_sort_checkbox_stateChanged);
     connect(ui->data_generator_sort_checkbox, &QCheckBox::stateChanged, this, &MainWindow::on_data_generator_sort_checkbox_stateChanged);
+
+    // greater or less
+    connect(ui->greater_checkbox, &QCheckBox::stateChanged, this, &MainWindow::on_greater_checkbox_stateChanged);
+    connect(ui->less_checkbox, &QCheckBox::stateChanged, this, &MainWindow::on_less_checkbox_stateChanged);
 
     // algorithm selection
     connect(ui->insert_sort_button, &QPushButton::clicked, this, &MainWindow::on_insert_sort_button_clicked);
@@ -332,6 +337,22 @@ void MainWindow::on_data_generator_sort_checkbox_stateChanged() {
     }
 }
 
+void MainWindow::on_greater_checkbox_stateChanged() {
+    if (ui->greater_checkbox->isChecked()){
+        ui->less_checkbox->setChecked(false);
+    } else {
+        ui->less_checkbox->setChecked(true);
+    }
+}
+
+void MainWindow::on_less_checkbox_stateChanged() {
+    if (ui->less_checkbox->isChecked()){
+        ui->greater_checkbox->setChecked(false);
+    } else {
+        ui->greater_checkbox->setChecked(true);
+    }
+}
+
 // algorithm selection
 void MainWindow::on_insert_sort_button_clicked() {
     ui->algorithm_message_show->setText(
@@ -585,73 +606,41 @@ void MainWindow::on_launch_button_clicked() {
             report->set_message("insert sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - insert sort"
-            );
             break;
         case 1: // bubble sort
             report->set_message("bubble sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - bubble sort"
-            );
             break;
         case 2: // selection sort
             report->set_message("select sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - select sort"
-            );
             break;
         case 3: // shell sort
             report->set_message("shell sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - shell sort"
-            );
             break;
         case 4: // quick sort
             report->set_message("quick sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - quick sort"
-            );
             break;
         case 5: // heap sort
             report->set_message("heap sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - heap sort"
-            );
             break;
         case 6: // radix sort
             report->set_message("radix sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - radix sort"
-            );
             break;
         case 7: // merge sort
             report->set_message("merge sort", size,
                                 filename,
                                 file_path.toStdString());
-            ui->algorithm_message_show->setText(
-                    ui->algorithm_message_show->toPlainText() + "\n" +
-                    "loading algorithm - merge sort"
-            );
             break;
         case 8: // my sort
             report->set_message("algorithm sort", size,
@@ -661,20 +650,59 @@ void MainWindow::on_launch_button_clicked() {
     }
 
     // run
-    new std::thread(&MainWindow::run_launch, this, report);
-
+    new std::thread(&MainWindow::run_launch, this, report, list,
+                    ui->timer_checkbox->isChecked(),
+                    ui->comparer_mover_checkbox->isChecked(),
+                    ui->data_build_checkbox->isChecked(),
+                    ui->mutil_thread_checkbox->isChecked());
     std::unique_lock<std::shared_mutex> lock(report_mutex);
     reports.push_back(report);
     lock.unlock();
+
+    ui->algorithm_message_show->setText(
+            ui->algorithm_message_show->toPlainText() + "\n" +
+            "launch sort thread ..."
+    );
 
     // init
     this->algorithm = -1;
     generate_flag = false;
 }
 
-void MainWindow::run_launch(structure::Report<int>* report) {
+void MainWindow::run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
+                            bool timer, bool compare_and_move, bool build, bool multi_thread) {
+    algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
+    algorithm::Evaluate evaluate;
 
-    ui->algorithm_message_show->setText(
-            ui->algorithm_message_show->toPlainText() + "\n" +
-    );
+    evaluate.flag = compare_and_move;
+    if (build){
+        list->build();
+    }
+    algorithm.use_thread = multi_thread;
+    algorithm.max_deep = 8;
+
+    // run
+    switch (report->algorithm_name_id){
+        case 0: // insertion sort
+            break;
+        case 1: // bubble sort
+            break;
+        case 2: // selection sort
+            break;
+        case 3: // shell sort
+            break;
+        case 4: // quick sort
+            break;
+        case 5: // heap sort
+            break;
+        case 6: // radix sort
+            break;
+        case 7: // merge sort
+            break;
+        case 8: // my sort
+            break;
+    }
 }
+
+
+

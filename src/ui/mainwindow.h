@@ -36,6 +36,10 @@ public:
     void on_data_loader_sort_checkbox_stateChanged();
     void on_data_generator_sort_checkbox_stateChanged();
 
+    // greater or less
+    void on_greater_checkbox_stateChanged();
+    void on_less_checkbox_stateChanged();
+
     // algorithm selection
     void on_insert_sort_button_clicked();
     void on_bubble_sort_button_clicked();
@@ -52,7 +56,8 @@ public:
 
     // launch
     void on_launch_button_clicked();
-    void run_launch(structure::Report<int>* report);
+    void run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
+                    bool timer, bool compare_and_move, bool build, bool multi_thread);
 
 private:
     Ui::MainWindow *ui;

@@ -59,7 +59,6 @@ namespace structure{
 template<typename T>
 structure::Report<T>::Report() {
     date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-
     // init
     algorithm_name = "";
     algorithm_name_id = -1;
