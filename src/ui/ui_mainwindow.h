@@ -452,7 +452,9 @@ public:
         sort_launch_button->setObjectName("sort_launch_button");
         sizePolicy.setHeightForWidth(sort_launch_button->sizePolicy().hasHeightForWidth());
         sort_launch_button->setSizePolicy(sizePolicy);
-        sort_launch_button->setFont(font);
+        QFont font5;
+        font5.setPointSize(14);
+        sort_launch_button->setFont(font5);
 
         Algorithm_layout->addWidget(sort_launch_button, 2, 2, 1, 1);
 
@@ -474,7 +476,7 @@ public:
         sort_generate_data_button->setObjectName("sort_generate_data_button");
         sizePolicy.setHeightForWidth(sort_generate_data_button->sizePolicy().hasHeightForWidth());
         sort_generate_data_button->setSizePolicy(sizePolicy);
-        sort_generate_data_button->setFont(font);
+        sort_generate_data_button->setFont(font5);
 
         Algorithm_layout->addWidget(sort_generate_data_button, 1, 2, 1, 2);
 

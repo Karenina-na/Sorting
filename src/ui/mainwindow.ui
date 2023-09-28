@@ -666,7 +666,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -719,7 +719,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">

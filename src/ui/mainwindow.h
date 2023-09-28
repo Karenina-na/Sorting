@@ -45,6 +45,13 @@ private:
     // file path
     QString file_path;
 
+    // algorithm
+    // -1: not selected
+    // 0: insertion sort, 1: bubble sort, 2: selection sort, 3: shell sort,
+    // 4: quick sort, 5: heap sort, 6: radix sort, 7: merge sort, 8: my
+    int algorithm = -1;
+    bool generate_flag = false;
+
     void recreate_functionqwidget();
     int distribution = 3;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian
 };
