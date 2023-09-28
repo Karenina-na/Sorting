@@ -7,6 +7,7 @@
 #define SORTING_ALGORITHM_INTERFACE_FRAMEWORK_BIDIRECTIONALLINKLIST_H
 
 #include <iostream>
+#include <functional>
 
 namespace structure {
 
@@ -148,7 +149,7 @@ namespace structure {
 
         int size();
         T getData(int index);
-        void forEach(void (*callback)(T));
+        void forEach(std::function<void(int)> lambda);
         void insertAtHead(T data);
         void insertAtTail(T data);
         void insertAt(int index, T data);
@@ -259,7 +260,7 @@ T structure::BidirectionalLinkList<T>::getData(int index){
 
 // 遍历操作链表
 template<typename T>
-void structure::BidirectionalLinkList<T>::forEach(void (*callback)(T)){
+void structure::BidirectionalLinkList<T>::forEach(std::function<void(int)> callback){
     if (length == 0){
         throw "Empty list.";
     }

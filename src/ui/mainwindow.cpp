@@ -7,7 +7,7 @@
 #include <QScrollBar>
 #include <mutex>
 #include <shared_mutex>
-#include "Algorithm.h"
+#include <vector>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // launch
     connect(ui->sort_launch_button, &QPushButton::clicked, this, &MainWindow::on_launch_button_clicked);
+    connect(this, &MainWindow::finish_signal, this, &MainWindow::finish_slot);
 }
 
 MainWindow::~MainWindow()
@@ -654,23 +655,27 @@ void MainWindow::on_launch_button_clicked() {
                     ui->timer_checkbox->isChecked(),
                     ui->comparer_mover_checkbox->isChecked(),
                     ui->data_build_checkbox->isChecked(),
-                    ui->mutil_thread_checkbox->isChecked());
+                    ui->greater_checkbox->isChecked(),
+                    ui->mutil_thread_checkbox->isChecked(),
+                    task_num
+                    );
     std::unique_lock<std::shared_mutex> lock(report_mutex);
     reports.push_back(report);
     lock.unlock();
 
     ui->algorithm_message_show->setText(
             ui->algorithm_message_show->toPlainText() + "\n" +
-            "launch sort thread ..."
+            "launch sort thread " + QString::number(task_num)
     );
 
     // init
     this->algorithm = -1;
     generate_flag = false;
+    this->task_num++;
 }
 
 void MainWindow::run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
-                            bool timer, bool compare_and_move, bool build, bool multi_thread) {
+                            bool timer, bool compare_and_move, bool build, bool compare, bool multi_thread, int task) {
     algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
     algorithm::Evaluate evaluate;
 
@@ -684,25 +689,86 @@ void MainWindow::run_launch(structure::Report<int>* report, structure::Bidirecti
     // run
     switch (report->algorithm_name_id){
         case 0: // insertion sort
+            if (compare){
+                algorithm.insertionSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.insertionSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 1: // bubble sort
+            if (compare){
+                algorithm.bubbleSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.bubbleSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 2: // selection sort
+            if (compare){
+                algorithm.selectionSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.selectionSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 3: // shell sort
+            if (compare){
+                algorithm.shellSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.shellSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 4: // quick sort
+            if (compare){
+                algorithm.quickSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.quickSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 5: // heap sort
+            if (compare){
+                algorithm.heapSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.heapSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 6: // radix sort
+            if (compare){
+                algorithm.radixSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.radixSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 7: // merge sort
+            if (compare){
+                algorithm.mergeSort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.mergeSort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
         case 8: // my sort
+            if (compare){
+                algorithm.sort(*list, algorithm::Compare::greater, evaluate);
+            }else{
+                algorithm.sort(*list, algorithm::Compare::greater, evaluate);
+            }
             break;
     }
+
+    // report
+    report->set_evaluation(evaluate.getCompCount(), evaluate.getMoveCount(), timer? evaluate.getTime() : 0);
+
+    // result
+    auto* result = new std::vector<int>();
+    list->forEach([&](int data){
+        result->push_back(data);
+    });
+    report->set_result(result);
+
+    emit finish_signal(task);
 }
 
-
-
+void MainWindow::finish_slot(int task_num) {
+    ui->algorithm_message_show->setText(
+            ui->algorithm_message_show->toPlainText() + "\n" +
+            "finish sort thread " + QString::number(task_num)
+    );
+}

@@ -57,11 +57,14 @@ public:
     // launch
     void on_launch_button_clicked();
     void run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
-                    bool timer, bool compare_and_move, bool build, bool multi_thread);
+                    bool timer, bool compare_and_move, bool build, bool compare, bool multi_thread, int task_num);
+
+    void finish_slot(int task_num);
 
 private:
     Ui::MainWindow *ui;
     bool first_flag = true;
+    int task_num = 0;
 
     // store parameters
     unsigned int seed = rand();
@@ -92,5 +95,8 @@ private:
 
     void recreate_functionqwidget();
     int distribution = 3;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian
+
+Q_SIGNALS:
+    int finish_signal(int task_num);
 };
 #endif // MAINWINDOW_H
