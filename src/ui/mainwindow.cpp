@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "distributionwindow.h"
 #include "functionqwidget.h"
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // generator
     connect(ui->data_input_uniform_button, &QPushButton::clicked, this, &MainWindow::on_data_input_uniform_button_clicked);
     connect(ui->data_input_poisson_button, &QPushButton::clicked, this, &MainWindow::on_data_input_poisson_button_clicked);
     connect(ui->data_input_exponential_button, &QPushButton::clicked, this, &MainWindow::on_data_input_exponential_button_clicked);
@@ -18,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->data_input_distribution_horizontal_slider, &QSlider::valueChanged, this, &MainWindow::on_data_input_distribution_horizontal_slider_valueChanged);
     connect(ui->data_input_distribution_vertical_slider, &QSlider::valueChanged, this, &MainWindow::on_data_input_distribution_vertical_slider_valueChanged);
 
+    // load data
+    connect(ui->data_loader_button, &QPushButton::clicked, this, &MainWindow::on_data_loader_button_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -209,4 +213,33 @@ void MainWindow::on_data_input_distribution_vertical_slider_valueChanged(int val
 // recreate functionqwidget
 void MainWindow::recreate_functionqwidget() {
     ui->data_input_distribution_preview->update();
+}
+
+// load data
+void MainWindow::on_data_loader_button_clicked(){
+    QString sPath = QFileDialog::getOpenFileName(this,"选择数据文件",".","txt files(*.txt);");
+
+    // read data
+    QFile file(sPath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        return;
+    }
+    QTextStream in(&file);
+    QString line = in.readLine();
+    QStringList list = line.split(",");
+    std::vector<int> data;
+    for (QString i : list){
+        data.push_back(i.toInt());
+    }
+    file.close();
+
+    // show data
+    QString param = "size: " + QString::number(data.size()) + " " + "preview (100): " + "\n";
+    for (int i = 0; i < 100; i++){
+        param += QString::number(data[i]) + ", ";
+    }
+
+    ui->data_loader_preview->setText(param);
+    file_path = sPath;
+    ui->data_loader_show->setText(file_path);
 }
