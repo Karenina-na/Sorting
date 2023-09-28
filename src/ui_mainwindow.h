@@ -157,8 +157,10 @@ public:
 
         data_input_distribution_vertical_slider = new QSlider(layoutWidget);
         data_input_distribution_vertical_slider->setObjectName("data_input_distribution_vertical_slider");
-        data_input_distribution_vertical_slider->setMinimum(10);
-        data_input_distribution_vertical_slider->setValue(50);
+        data_input_distribution_vertical_slider->setMinimum(15);
+        data_input_distribution_vertical_slider->setMaximum(99);
+        data_input_distribution_vertical_slider->setValue(25);
+        data_input_distribution_vertical_slider->setSliderPosition(25);
         data_input_distribution_vertical_slider->setOrientation(Qt::Vertical);
 
         distribution_show_layout->addWidget(data_input_distribution_vertical_slider, 0, 1, 2, 1);
@@ -170,8 +172,10 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(data_input_distribution_horizontal_slider->sizePolicy().hasHeightForWidth());
         data_input_distribution_horizontal_slider->setSizePolicy(sizePolicy1);
-        data_input_distribution_horizontal_slider->setMinimum(10);
-        data_input_distribution_horizontal_slider->setValue(50);
+        data_input_distribution_horizontal_slider->setMinimum(2);
+        data_input_distribution_horizontal_slider->setMaximum(50);
+        data_input_distribution_horizontal_slider->setPageStep(10);
+        data_input_distribution_horizontal_slider->setValue(35);
         data_input_distribution_horizontal_slider->setOrientation(Qt::Horizontal);
 
         distribution_show_layout->addWidget(data_input_distribution_horizontal_slider, 1, 0, 1, 1);

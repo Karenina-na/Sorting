@@ -16,8 +16,8 @@ public:
     double stddev = 1;
     int distribution = 3;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian
 
-    double horizontal_slider_value = 50;
-    double vertical_slider_value = 50;
+    double horizontal_slider_value = 35;
+    double vertical_slider_value = 25;
 
 protected:
     void paintEvent(QPaintEvent *event) override;

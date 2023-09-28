@@ -18,8 +18,10 @@ double FunctionQWidget::transform(double x){
     // 需要一个当 x = 50 时 y = 50
     // y = [0, +00)
     // x = [0, 100]
-    return x;
+    return x * 2;
 }
+
+
 
 void FunctionQWidget::paintEvent(QPaintEvent *event)
 {
@@ -32,7 +34,7 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);//设置抗锯齿
     painter.translate(width / 2, height / 2); //设置坐标中心为控件中心
 
-    int point_num = 50000;
+    int point_num = 5000;
 
     // 缩放系数
     // x = x * (horizontal_slider_value / 50) y = y * (vertical_slider_value / 50)
@@ -75,8 +77,16 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
     pan.setStyle(Qt::SolidLine);
     pan.setWidth(1);
     painter.setPen(pan);
-    painter.drawText(max_x_num * one_px_x - 10, -5, QString::fromStdString("X"));
-    painter.drawText(5, max_y_num * one_px_y - 10, QString::fromStdString("Y"));
+    painter.drawText(max_x_num * one_px_x - 15, 12, QString::fromStdString("X"));
+    painter.drawText(-12, - max_y_num * one_px_y + 15, QString::fromStdString("Y"));
+
+    // 输出点数量信息与赛贝尔曲线名称
+    pan.setColor(Qt::black);
+    pan.setStyle(Qt::SolidLine);
+    pan.setWidth(1);
+    painter.setPen(pan);
+    painter.drawText(-width / 2 + 10, -height / 2 + 20, QString::fromStdString("Point Num: " + QString::number(point_num).toStdString()));
+    painter.drawText(-35, height / 2 - 10, QString::fromStdString("Bezier Curve"));
 
     // 绘制函数
     pan.setColor(Qt::red);
@@ -86,28 +96,28 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
     QList<QPointF> points;
     switch(distribution){
         case 0: // uniform
-            for (int i = 0; i <= point_num; i++) {
+            for (double i = 0; i <= point_num; i++) {
                 double x = min + (max - min) * i / point_num;
                 double y = - 1.0 / (max - min);
                 points.append(QPointF(x * one_px_x, y * one_px_y));
             }
             break;
         case 1: // poisson
-            for (int i = 0; i <= point_num; i++) {
+            for (double i = 0; i <= point_num; i++) {
                 double x = min + (max - min) * i / point_num;
                 double y = - qExp(-lambda_p) * qPow(lambda_p, x) / tgamma(x + 1);
                 points.append(QPointF(x * one_px_x, y * one_px_y));
             }
             break;
         case 2: // exponential
-            for (int i = 0; i <= point_num; i++) {
+            for (double i = 0; i <= point_num; i++) {
                 double x = min + (max - min) * i / point_num;
                 double y = - lambda_e * qExp(-lambda_e * x);
                 points.append(QPointF(x * one_px_x, y * one_px_y));
             }
             break;
         case 3: // gaussian
-            for (int i = 0; i <= point_num; i++) {
+            for (double i = 0; i <= point_num; i++) {
                 double x = min + (max - min) * i / point_num;
                 double y = - 1.0 / (stddev * qSqrt(2 * M_PI)) * qExp(-qPow(x - mean, 2) / (2 * qPow(stddev, 2)));
                 points.append(QPointF(x * one_px_x, y * one_px_y));
@@ -115,16 +125,29 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
             break;
     }
 
+    // min max 两条竖直线
+    pan.setColor(Qt::red);
+    pan.setStyle(Qt::SolidLine);
+    pan.setWidth(1);
+    painter.setPen(pan);
+    painter.drawLine(min * one_px_x, -height / 2, min * one_px_x, height / 2);
+    painter.drawLine(max * one_px_x, -height / 2, max * one_px_x, height / 2);
+    painter.drawText(min * one_px_x - 10, height / 2 - 20, QString::fromStdString("min"));
+    painter.drawText(max * one_px_x - 10, height / 2 - 20, QString::fromStdString("max"));
+
     // 赛贝尔曲线
-    QPainterPath P;
-    for(int i = 0; i < points.size() - 1; ++i)
-    {
-        QPointF c1 = points.at(i) + (points.at(i + 1) - points.at(i)) * 0.25;
-        QPointF c2 = points.at(i) + (points.at(i + 1) - points.at(i)) * 0.75;
-        QPointF ep = points.at(i + 1);
-        if(i == 0)
-            P.moveTo(points.at(i));
-        P.cubicTo(c1,c2,ep);
+    pan.setColor(Qt::blue);
+    pan.setStyle(Qt::SolidLine);
+    pan.setWidth(1);
+    painter.setPen(pan);
+    QPainterPath path;
+    path.moveTo(points[0]);
+    for (int i = 0; i < points.size() - 1; i++) {
+        QPointF p1 = points[i];
+        QPointF p2 = points[i + 1];
+        QPointF c1 = QPointF(p1.x() + (p2.x() - p1.x()) / 2, p1.y());
+        QPointF c2 = QPointF(p1.x() + (p2.x() - p1.x()) / 2, p2.y());
+        path.cubicTo(c1, c2, p2);
     }
-    painter.drawPath(P);
+    painter.drawPath(path);
 }
