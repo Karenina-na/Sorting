@@ -333,6 +333,7 @@ public:
         font3.setPointSize(10);
         data_generator_sort_checkbox->setFont(font3);
         data_generator_sort_checkbox->setCursor(QCursor(Qt::PointingHandCursor));
+        data_generator_sort_checkbox->setChecked(true);
 
         sort_checkbox_layout->addWidget(data_generator_sort_checkbox);
 
@@ -464,11 +465,16 @@ public:
         data_build_checkbox->setSizePolicy(sizePolicy);
         data_build_checkbox->setFont(font4);
         data_build_checkbox->setCursor(QCursor(Qt::PointingHandCursor));
+        data_build_checkbox->setChecked(true);
 
         Algorithm_layout->addWidget(data_build_checkbox, 2, 3, 1, 1);
 
         algorithm_message_show = new QTextBrowser(layoutWidget1);
         algorithm_message_show->setObjectName("algorithm_message_show");
+        algorithm_message_show->setTabChangesFocus(false);
+        algorithm_message_show->setUndoRedoEnabled(false);
+        algorithm_message_show->setLineWrapMode(QTextEdit::NoWrap);
+        algorithm_message_show->setLineWrapColumnOrWidth(0);
 
         Algorithm_layout->addWidget(algorithm_message_show, 3, 2, 1, 2);
 
@@ -527,6 +533,7 @@ public:
         sizePolicy6.setVerticalStretch(0);
         sizePolicy6.setHeightForWidth(result_show->sizePolicy().hasHeightForWidth());
         result_show->setSizePolicy(sizePolicy6);
+        result_show->setLineWrapMode(QTextEdit::NoWrap);
 
         result_show_layout->addWidget(result_show, 4, 0, 1, 2);
 

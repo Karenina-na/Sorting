@@ -19,15 +19,16 @@ namespace structure{
 
         bool save(std::string path);
         void set_message(std::string algorithm_name, int data_size, std::string file_name, std::string file_path);
-        void set_distribution(std::string data_distribution, std::vector<std::string> data_distribution_param_name,
+        void set_distribution(std::string data_distribution, int type, std::vector<std::string> data_distribution_param_name,
                               std::vector<double> data_distribution_param);
         void set_evaluation(long long comp_count, long long move_count, double time);
         void set_result(std::vector<T>* result);
-    private:
+
         // 记录日期
         std::time_t date;
         // 算法名称
         std::string algorithm_name;
+        int algorithm_name_id;
         // 数据规模
         int data_size;
         // 数据分布
@@ -48,6 +49,8 @@ namespace structure{
         std::string file_path;
         // 排序结果
         std::vector<T>* result;
+        // gene or load| true = gene, false = load
+        bool flag;
     };
 
 }
@@ -56,12 +59,28 @@ namespace structure{
 template<typename T>
 structure::Report<T>::Report() {
     date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+    // init
+    algorithm_name = "";
+    algorithm_name_id = -1;
+    data_size = 0;
+    data_distribution = "";
+    data_distribution_param = std::vector<double>();
+    data_distribution_param_name = std::vector<std::string>();
+    comp_count = 0;
+    move_count = 0;
+    time = 0;
+    file_name = "";
+    file_path = "";
+    result = nullptr;
+    flag = true;
 }
 
 // 保存结果与报告
 template<typename T>
 bool structure::Report<T>::save(std::string path) {
     // 保存结果
+    date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     std::ofstream out(std::filesystem::path(path + "/" + file_name + ".txt"));
     if (!out.is_open()){
@@ -112,9 +131,10 @@ void structure::Report<T>::set_message(std::string algorithm_name, int data_size
 
 // 设置数据分布
 template<typename T>
-void structure::Report<T>::set_distribution(std::string data_distribution, std::vector<std::string> data_distribution_param_name,
+void structure::Report<T>::set_distribution(std::string data_distribution, int type, std::vector<std::string> data_distribution_param_name,
                                             std::vector<double> data_distribution_param) {
     this->data_distribution = data_distribution;
+    this->algorithm_name_id = type;
     this->data_distribution_param_name = data_distribution_param_name;
     this->data_distribution_param = data_distribution_param;
 }
