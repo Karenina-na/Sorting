@@ -25,6 +25,9 @@ public:
     void on_data_input_distribution_horizontal_slider_valueChanged(int value);
     void on_data_input_distribution_vertical_slider_valueChanged(int value);
 
+    // load data
+    void on_data_loader_button_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool first_flag = true;
@@ -38,6 +41,9 @@ private:
     double lambda_e{};
     double mean{};
     double stddev{};
+
+    // file path
+    QString file_path;
 
     void recreate_functionqwidget();
     int distribution = 3;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian

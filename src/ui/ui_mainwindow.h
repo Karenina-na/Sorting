@@ -48,11 +48,11 @@ public:
     QSlider *data_input_distribution_horizontal_slider;
     QSpacerItem *Data_Loader_space;
     QVBoxLayout *Data_Loader_layout;
-    QLabel *Data_Loader_title;
-    QTextBrowser *Data_Loader_preview;
+    QLabel *data_loader_title;
+    QTextBrowser *data_loader_preview;
     QHBoxLayout *Data_Loader_button_layout;
-    QTextBrowser *Data_Loader_show;
-    QPushButton *Data_Loader_Button;
+    QTextBrowser *data_loader_show;
+    QPushButton *data_loader_button;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -199,50 +199,56 @@ public:
         Data_Loader_layout->setObjectName("Data_Loader_layout");
         Data_Loader_layout->setSizeConstraint(QLayout::SetDefaultConstraint);
         Data_Loader_layout->setContentsMargins(-1, -1, -1, 0);
-        Data_Loader_title = new QLabel(layoutWidget);
-        Data_Loader_title->setObjectName("Data_Loader_title");
-        Data_Loader_title->setFont(font);
-        Data_Loader_title->setAutoFillBackground(false);
-        Data_Loader_title->setAlignment(Qt::AlignCenter);
+        data_loader_title = new QLabel(layoutWidget);
+        data_loader_title->setObjectName("data_loader_title");
+        data_loader_title->setFont(font);
+        data_loader_title->setAutoFillBackground(false);
+        data_loader_title->setAlignment(Qt::AlignCenter);
 
-        Data_Loader_layout->addWidget(Data_Loader_title);
+        Data_Loader_layout->addWidget(data_loader_title);
 
-        Data_Loader_preview = new QTextBrowser(layoutWidget);
-        Data_Loader_preview->setObjectName("Data_Loader_preview");
+        data_loader_preview = new QTextBrowser(layoutWidget);
+        data_loader_preview->setObjectName("data_loader_preview");
         QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Ignored);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(Data_Loader_preview->sizePolicy().hasHeightForWidth());
-        Data_Loader_preview->setSizePolicy(sizePolicy2);
+        sizePolicy2.setHeightForWidth(data_loader_preview->sizePolicy().hasHeightForWidth());
+        data_loader_preview->setSizePolicy(sizePolicy2);
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221")});
+        font2.setPointSize(10);
+        data_loader_preview->setFont(font2);
 
-        Data_Loader_layout->addWidget(Data_Loader_preview);
+        Data_Loader_layout->addWidget(data_loader_preview);
 
         Data_Loader_button_layout = new QHBoxLayout();
         Data_Loader_button_layout->setSpacing(8);
         Data_Loader_button_layout->setObjectName("Data_Loader_button_layout");
         Data_Loader_button_layout->setContentsMargins(-1, 4, -1, 4);
-        Data_Loader_show = new QTextBrowser(layoutWidget);
-        Data_Loader_show->setObjectName("Data_Loader_show");
+        data_loader_show = new QTextBrowser(layoutWidget);
+        data_loader_show->setObjectName("data_loader_show");
         QSizePolicy sizePolicy3(QSizePolicy::Ignored, QSizePolicy::Ignored);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(Data_Loader_show->sizePolicy().hasHeightForWidth());
-        Data_Loader_show->setSizePolicy(sizePolicy3);
-        Data_Loader_show->setFocusPolicy(Qt::NoFocus);
-        Data_Loader_show->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        Data_Loader_show->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        sizePolicy3.setHeightForWidth(data_loader_show->sizePolicy().hasHeightForWidth());
+        data_loader_show->setSizePolicy(sizePolicy3);
+        data_loader_show->setFocusPolicy(Qt::NoFocus);
+        data_loader_show->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        data_loader_show->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        data_loader_show->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        data_loader_show->setLineWrapMode(QTextEdit::NoWrap);
 
-        Data_Loader_button_layout->addWidget(Data_Loader_show);
+        Data_Loader_button_layout->addWidget(data_loader_show);
 
-        Data_Loader_Button = new QPushButton(layoutWidget);
-        Data_Loader_Button->setObjectName("Data_Loader_Button");
+        data_loader_button = new QPushButton(layoutWidget);
+        data_loader_button->setObjectName("data_loader_button");
         QSizePolicy sizePolicy4(QSizePolicy::Ignored, QSizePolicy::Fixed);
         sizePolicy4.setHorizontalStretch(0);
         sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(Data_Loader_Button->sizePolicy().hasHeightForWidth());
-        Data_Loader_Button->setSizePolicy(sizePolicy4);
+        sizePolicy4.setHeightForWidth(data_loader_button->sizePolicy().hasHeightForWidth());
+        data_loader_button->setSizePolicy(sizePolicy4);
 
-        Data_Loader_button_layout->addWidget(Data_Loader_Button);
+        Data_Loader_button_layout->addWidget(data_loader_button);
 
         Data_Loader_button_layout->setStretch(0, 12);
         Data_Loader_button_layout->setStretch(1, 4);
@@ -282,8 +288,16 @@ public:
         data_input_gaussian_button->setText(QCoreApplication::translate("MainWindow", "Gaussian", nullptr));
         data_input_poisson_button->setText(QCoreApplication::translate("MainWindow", "Poisson", nullptr));
         data_input_exponential_button->setText(QCoreApplication::translate("MainWindow", "Exponential", nullptr));
-        Data_Loader_title->setText(QCoreApplication::translate("MainWindow", "Data Loader", nullptr));
-        Data_Loader_preview->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        data_loader_title->setText(QCoreApplication::translate("MainWindow", "Data Loader", nullptr));
+        data_loader_preview->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'\345\276\256\350\275\257\351\233\205\351\273\221'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+        data_loader_show->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -291,15 +305,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Microsoft YaHei UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        Data_Loader_show->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Microsoft YaHei UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        Data_Loader_Button->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
+        data_loader_button->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
     } // retranslateUi
 
 };
