@@ -12,6 +12,8 @@ DistributionWindow::DistributionWindow(QWidget *parent, bool first_change,
 {
     ui->setupUi(this);
     this->distribution = distribution;
+    ui->function_show->distribution = distribution;
+    recreate_functionqwidget();
 
     if (first_change){
         // set default param
@@ -79,6 +81,12 @@ void DistributionWindow::set_default_param(){
             ui->param1_input->setText("0");
             ui->param2_input->setReadOnly(false);
             ui->param2_input->setText("1");
+            break;
+        case 4: // random
+            ui->param1->setText("--");
+            ui->param2->setText("--");
+            ui->param1_input->setReadOnly(true);
+            ui->param2_input->setReadOnly(true);
             break;
     }
 }
@@ -162,6 +170,12 @@ void DistributionWindow::set_param(int max, int min, int size, unsigned int seed
             ui->param2_input->setReadOnly(false);
             ui->param2_input->setText(QString::number(this->stddev));
             break;
+        case 4: // random
+            ui->param1->setText("--");
+            ui->param2->setText("--");
+            ui->param1_input->setReadOnly(true);
+            ui->param2_input->setReadOnly(true);
+            break;
     }
 }
 
@@ -197,6 +211,12 @@ void DistributionWindow::on_buttonBox_click_accept() {
             max = ui->max_input->text().toInt();
             mean = ui->param1_input->text().toDouble();
             stddev = ui->param2_input->text().toDouble();
+            break;
+        case 4: // random
+            seed = ui->seed_input->text().toUInt();
+            size = ui->size_input->text().toInt();
+            min = ui->min_input->text().toInt();
+            max = ui->max_input->text().toInt();
             break;
     }
     this->close();

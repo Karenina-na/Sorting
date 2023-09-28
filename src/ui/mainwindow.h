@@ -25,6 +25,7 @@ public:
     void on_data_input_poisson_button_clicked();
     void on_data_input_gaussian_button_clicked();
     void on_data_input_exponential_button_clicked();
+    void on_data_input_random_button_clicked();
 
     // QSideBar
     void on_data_input_distribution_horizontal_slider_valueChanged(int value);
@@ -57,9 +58,12 @@ public:
     // launch
     void on_launch_button_clicked();
     void run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
-                    bool timer, bool compare_and_move, bool build, bool compare, bool multi_thread, int task_num);
-
+                    bool timer, bool compare_and_move, bool compare, bool multi_thread, int task_num);
     void finish_slot(int task_num);
+
+    // open report
+    void on_open_report_button_clicked();
+    void on_result_show_value_change();
 
 private:
     Ui::MainWindow *ui;
@@ -94,7 +98,7 @@ private:
     std::vector<structure::Report<int>*> reports;
 
     void recreate_functionqwidget();
-    int distribution = 3;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian
+    int distribution = 4;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian, 4: random
 
 Q_SIGNALS:
     int finish_signal(int task_num);

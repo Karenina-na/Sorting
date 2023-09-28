@@ -18,8 +18,8 @@ namespace structure{
         Report();
 
         bool save(std::string path);
-        void set_message(std::string algorithm_name, int data_size, std::string file_name, std::string file_path);
-        void set_distribution(std::string data_distribution, int type, std::vector<std::string> data_distribution_param_name,
+        void set_message(std::string algorithm_name, int algorithm_name_id, int data_size, std::string file_name, std::string file_path);
+        void set_distribution(std::string data_distribution,  std::vector<std::string> data_distribution_param_name,
                               std::vector<double> data_distribution_param);
         void set_evaluation(long long comp_count, long long move_count, double time);
         void set_result(std::vector<T>* result);
@@ -93,21 +93,27 @@ bool structure::Report<T>::save(std::string path) {
     // 保存报告
     std::string report = "";
     report += "======= data =======\n";
-    report += "file name: " + file_name + "\n";
-    report += "file path: " + file_path + "\n";
-    report += "date: " + std::string(std::ctime(&date)) + "\n";
+    report += "date: " + std::string(std::ctime(&date));
     report += "algorithm: " + algorithm_name + "\n";
     report += "data size: " + std::to_string(data_size) + "\n";
-    report += "data distribution: " + data_distribution + "\n";
+    report += "\n";
+
+    report += "======= distribution =======\n";
+    report += "distribution: " + data_distribution + "\n";
     for (int i = 0; i < data_distribution_param.size(); i++) {
         report += data_distribution_param_name[i] + ": " + std::to_string(data_distribution_param[i]) + "\n";
     }
     report += "\n";
+
     report += "======= evaluation =======\n";
     report += "comp count: " + std::to_string(comp_count) + "\n";
     report += "move count: " + std::to_string(move_count) + "\n";
     report += "time: " + std::to_string(time) + "\n";
     report += "\n";
+
+    report += "======= loader =======\n";
+    report += "file name: " + file_name + "\n";
+    report += "file path: " + file_path + "\n";
 
     std::ofstream out2(std::filesystem::path(path + "/" + file_name + "_report.txt"));
     if (!out2.is_open()){
@@ -121,8 +127,9 @@ bool structure::Report<T>::save(std::string path) {
 
 // 设置报告信息
 template<typename T>
-void structure::Report<T>::set_message(std::string algorithm_name, int data_size, std::string file_name, std::string file_path) {
+void structure::Report<T>::set_message(std::string algorithm_name, int algorithm_name_id, int data_size, std::string file_name, std::string file_path) {
     this->algorithm_name = algorithm_name;
+    this->algorithm_name_id = algorithm_name_id;
     this->data_size = data_size;
     this->file_name = file_name;
     this->file_path = file_path;
@@ -130,10 +137,9 @@ void structure::Report<T>::set_message(std::string algorithm_name, int data_size
 
 // 设置数据分布
 template<typename T>
-void structure::Report<T>::set_distribution(std::string data_distribution, int type, std::vector<std::string> data_distribution_param_name,
+void structure::Report<T>::set_distribution(std::string data_distribution,  std::vector<std::string> data_distribution_param_name,
                                             std::vector<double> data_distribution_param) {
     this->data_distribution = data_distribution;
-    this->algorithm_name_id = type;
     this->data_distribution_param_name = data_distribution_param_name;
     this->data_distribution_param = data_distribution_param;
 }

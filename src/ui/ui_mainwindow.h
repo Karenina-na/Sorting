@@ -33,13 +33,14 @@ class Ui_MainWindow
 {
 public:
     QWidget *MainWindow_Widget;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QGridLayout *window_layout;
     QHBoxLayout *Data_layout;
     QHBoxLayout *Data_Generator_layout;
     QVBoxLayout *data_generator_left_layout;
     QLabel *data_input_generator_title;
     QTextBrowser *data_input_parameter_show;
+    QPushButton *data_input_random_button;
     QGridLayout *distribution_choose_layout;
     QPushButton *data_input_uniform_button;
     QPushButton *data_input_gaussian_button;
@@ -117,10 +118,10 @@ public:
         MainWindow_Widget->setSizePolicy(sizePolicy);
         MainWindow_Widget->setMinimumSize(QSize(820, 520));
         MainWindow_Widget->setMaximumSize(QSize(820, 520));
-        widget = new QWidget(MainWindow_Widget);
-        widget->setObjectName("widget");
-        widget->setGeometry(QRect(20, 10, 781, 491));
-        window_layout = new QGridLayout(widget);
+        layoutWidget = new QWidget(MainWindow_Widget);
+        layoutWidget->setObjectName("layoutWidget");
+        layoutWidget->setGeometry(QRect(20, 10, 781, 491));
+        window_layout = new QGridLayout(layoutWidget);
         window_layout->setObjectName("window_layout");
         window_layout->setVerticalSpacing(12);
         window_layout->setContentsMargins(0, 0, 0, 0);
@@ -132,7 +133,7 @@ public:
         Data_Generator_layout->setObjectName("Data_Generator_layout");
         data_generator_left_layout = new QVBoxLayout();
         data_generator_left_layout->setObjectName("data_generator_left_layout");
-        data_input_generator_title = new QLabel(widget);
+        data_input_generator_title = new QLabel(layoutWidget);
         data_input_generator_title->setObjectName("data_input_generator_title");
         QFont font;
         font.setPointSize(12);
@@ -142,11 +143,11 @@ public:
 
         data_generator_left_layout->addWidget(data_input_generator_title);
 
-        data_input_parameter_show = new QTextBrowser(widget);
+        data_input_parameter_show = new QTextBrowser(layoutWidget);
         data_input_parameter_show->setObjectName("data_input_parameter_show");
         QFont font1;
         font1.setFamilies({QString::fromUtf8("Times New Roman")});
-        font1.setPointSize(12);
+        font1.setPointSize(11);
         font1.setKerning(true);
         font1.setHintingPreference(QFont::PreferDefaultHinting);
         data_input_parameter_show->setFont(font1);
@@ -158,24 +159,29 @@ public:
 
         data_generator_left_layout->addWidget(data_input_parameter_show);
 
+        data_input_random_button = new QPushButton(layoutWidget);
+        data_input_random_button->setObjectName("data_input_random_button");
+
+        data_generator_left_layout->addWidget(data_input_random_button);
+
         distribution_choose_layout = new QGridLayout();
         distribution_choose_layout->setObjectName("distribution_choose_layout");
-        data_input_uniform_button = new QPushButton(widget);
+        data_input_uniform_button = new QPushButton(layoutWidget);
         data_input_uniform_button->setObjectName("data_input_uniform_button");
 
         distribution_choose_layout->addWidget(data_input_uniform_button, 0, 0, 1, 1);
 
-        data_input_gaussian_button = new QPushButton(widget);
+        data_input_gaussian_button = new QPushButton(layoutWidget);
         data_input_gaussian_button->setObjectName("data_input_gaussian_button");
 
         distribution_choose_layout->addWidget(data_input_gaussian_button, 0, 1, 1, 1);
 
-        data_input_poisson_button = new QPushButton(widget);
+        data_input_poisson_button = new QPushButton(layoutWidget);
         data_input_poisson_button->setObjectName("data_input_poisson_button");
 
         distribution_choose_layout->addWidget(data_input_poisson_button, 1, 0, 1, 1);
 
-        data_input_exponential_button = new QPushButton(widget);
+        data_input_exponential_button = new QPushButton(layoutWidget);
         data_input_exponential_button->setObjectName("data_input_exponential_button");
 
         distribution_choose_layout->addWidget(data_input_exponential_button, 1, 1, 1, 1);
@@ -192,12 +198,12 @@ public:
 
         distribution_show_layout = new QGridLayout();
         distribution_show_layout->setObjectName("distribution_show_layout");
-        data_input_distribution_preview = new FunctionQWidget(widget);
+        data_input_distribution_preview = new FunctionQWidget(layoutWidget);
         data_input_distribution_preview->setObjectName("data_input_distribution_preview");
 
         distribution_show_layout->addWidget(data_input_distribution_preview, 0, 0, 1, 1);
 
-        data_input_distribution_vertical_slider = new QSlider(widget);
+        data_input_distribution_vertical_slider = new QSlider(layoutWidget);
         data_input_distribution_vertical_slider->setObjectName("data_input_distribution_vertical_slider");
         data_input_distribution_vertical_slider->setMinimum(15);
         data_input_distribution_vertical_slider->setMaximum(99);
@@ -207,7 +213,7 @@ public:
 
         distribution_show_layout->addWidget(data_input_distribution_vertical_slider, 0, 1, 2, 1);
 
-        data_input_distribution_horizontal_slider = new QSlider(widget);
+        data_input_distribution_horizontal_slider = new QSlider(layoutWidget);
         data_input_distribution_horizontal_slider->setObjectName("data_input_distribution_horizontal_slider");
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
@@ -241,7 +247,7 @@ public:
         Data_Loader_layout->setObjectName("Data_Loader_layout");
         Data_Loader_layout->setSizeConstraint(QLayout::SetDefaultConstraint);
         Data_Loader_layout->setContentsMargins(-1, -1, -1, 0);
-        data_loader_title = new QLabel(widget);
+        data_loader_title = new QLabel(layoutWidget);
         data_loader_title->setObjectName("data_loader_title");
         data_loader_title->setFont(font);
         data_loader_title->setAutoFillBackground(false);
@@ -249,7 +255,7 @@ public:
 
         Data_Loader_layout->addWidget(data_loader_title);
 
-        data_loader_preview = new QTextBrowser(widget);
+        data_loader_preview = new QTextBrowser(layoutWidget);
         data_loader_preview->setObjectName("data_loader_preview");
         QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Ignored);
         sizePolicy2.setHorizontalStretch(0);
@@ -267,7 +273,7 @@ public:
         Data_Loader_button_layout->setSpacing(8);
         Data_Loader_button_layout->setObjectName("Data_Loader_button_layout");
         Data_Loader_button_layout->setContentsMargins(-1, 4, -1, 4);
-        data_loader_show = new QTextBrowser(widget);
+        data_loader_show = new QTextBrowser(layoutWidget);
         data_loader_show->setObjectName("data_loader_show");
         QSizePolicy sizePolicy3(QSizePolicy::Ignored, QSizePolicy::Ignored);
         sizePolicy3.setHorizontalStretch(0);
@@ -282,7 +288,7 @@ public:
 
         Data_Loader_button_layout->addWidget(data_loader_show);
 
-        data_loader_button = new QPushButton(widget);
+        data_loader_button = new QPushButton(layoutWidget);
         data_loader_button->setObjectName("data_loader_button");
         QSizePolicy sizePolicy4(QSizePolicy::Ignored, QSizePolicy::Fixed);
         sizePolicy4.setHorizontalStretch(0);
@@ -316,7 +322,7 @@ public:
         sort_checkbox_layout = new QHBoxLayout();
         sort_checkbox_layout->setObjectName("sort_checkbox_layout");
         sort_checkbox_layout->setContentsMargins(0, -1, -1, -1);
-        data_generator_sort_checkbox = new QCheckBox(widget);
+        data_generator_sort_checkbox = new QCheckBox(layoutWidget);
         data_generator_sort_checkbox->setObjectName("data_generator_sort_checkbox");
         QFont font3;
         font3.setPointSize(10);
@@ -326,7 +332,7 @@ public:
 
         sort_checkbox_layout->addWidget(data_generator_sort_checkbox);
 
-        data_loader_sort_checkbox = new QCheckBox(widget);
+        data_loader_sort_checkbox = new QCheckBox(layoutWidget);
         data_loader_sort_checkbox->setObjectName("data_loader_sort_checkbox");
         data_loader_sort_checkbox->setFont(font3);
         data_loader_sort_checkbox->setCursor(QCursor(Qt::PointingHandCursor));
@@ -337,7 +343,7 @@ public:
 
         sort_button_layout->addLayout(sort_checkbox_layout, 0, 0, 1, 3);
 
-        heap_sort_button = new QPushButton(widget);
+        heap_sort_button = new QPushButton(layoutWidget);
         heap_sort_button->setObjectName("heap_sort_button");
         sizePolicy.setHeightForWidth(heap_sort_button->sizePolicy().hasHeightForWidth());
         heap_sort_button->setSizePolicy(sizePolicy);
@@ -345,7 +351,7 @@ public:
 
         sort_button_layout->addWidget(heap_sort_button, 2, 1, 1, 1);
 
-        insert_sort_button = new QPushButton(widget);
+        insert_sort_button = new QPushButton(layoutWidget);
         insert_sort_button->setObjectName("insert_sort_button");
         QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
         sizePolicy5.setHorizontalStretch(0);
@@ -356,7 +362,7 @@ public:
 
         sort_button_layout->addWidget(insert_sort_button, 1, 0, 1, 1);
 
-        quick_sort_button = new QPushButton(widget);
+        quick_sort_button = new QPushButton(layoutWidget);
         quick_sort_button->setObjectName("quick_sort_button");
         sizePolicy.setHeightForWidth(quick_sort_button->sizePolicy().hasHeightForWidth());
         quick_sort_button->setSizePolicy(sizePolicy);
@@ -364,7 +370,7 @@ public:
 
         sort_button_layout->addWidget(quick_sort_button, 1, 1, 1, 1);
 
-        select_sort_button = new QPushButton(widget);
+        select_sort_button = new QPushButton(layoutWidget);
         select_sort_button->setObjectName("select_sort_button");
         sizePolicy.setHeightForWidth(select_sort_button->sizePolicy().hasHeightForWidth());
         select_sort_button->setSizePolicy(sizePolicy);
@@ -372,7 +378,7 @@ public:
 
         sort_button_layout->addWidget(select_sort_button, 3, 0, 1, 1);
 
-        bubble_sort_button = new QPushButton(widget);
+        bubble_sort_button = new QPushButton(layoutWidget);
         bubble_sort_button->setObjectName("bubble_sort_button");
         sizePolicy.setHeightForWidth(bubble_sort_button->sizePolicy().hasHeightForWidth());
         bubble_sort_button->setSizePolicy(sizePolicy);
@@ -380,7 +386,7 @@ public:
 
         sort_button_layout->addWidget(bubble_sort_button, 2, 0, 1, 1);
 
-        radix_sort_button = new QPushButton(widget);
+        radix_sort_button = new QPushButton(layoutWidget);
         radix_sort_button->setObjectName("radix_sort_button");
         sizePolicy.setHeightForWidth(radix_sort_button->sizePolicy().hasHeightForWidth());
         radix_sort_button->setSizePolicy(sizePolicy);
@@ -392,7 +398,7 @@ public:
 
         sort_button_layout->addItem(verticalSpacer_2, 1, 2, 4, 1);
 
-        merge_sort_button = new QPushButton(widget);
+        merge_sort_button = new QPushButton(layoutWidget);
         merge_sort_button->setObjectName("merge_sort_button");
         sizePolicy.setHeightForWidth(merge_sort_button->sizePolicy().hasHeightForWidth());
         merge_sort_button->setSizePolicy(sizePolicy);
@@ -400,7 +406,7 @@ public:
 
         sort_button_layout->addWidget(merge_sort_button, 4, 1, 1, 1);
 
-        shell_sort_button = new QPushButton(widget);
+        shell_sort_button = new QPushButton(layoutWidget);
         shell_sort_button->setObjectName("shell_sort_button");
         sizePolicy.setHeightForWidth(shell_sort_button->sizePolicy().hasHeightForWidth());
         shell_sort_button->setSizePolicy(sizePolicy);
@@ -421,8 +427,9 @@ public:
 
         result_show_layout = new QGridLayout();
         result_show_layout->setObjectName("result_show_layout");
+        result_show_layout->setVerticalSpacing(12);
         result_show_layout->setContentsMargins(6, 6, -1, -1);
-        timer_checkbox = new QCheckBox(widget);
+        timer_checkbox = new QCheckBox(layoutWidget);
         timer_checkbox->setObjectName("timer_checkbox");
         sizePolicy.setHeightForWidth(timer_checkbox->sizePolicy().hasHeightForWidth());
         timer_checkbox->setSizePolicy(sizePolicy);
@@ -430,17 +437,18 @@ public:
         font4.setPointSize(11);
         timer_checkbox->setFont(font4);
         timer_checkbox->setCursor(QCursor(Qt::PointingHandCursor));
+        timer_checkbox->setChecked(true);
 
         result_show_layout->addWidget(timer_checkbox, 0, 1, 1, 1);
 
-        label = new QLabel(widget);
+        label = new QLabel(layoutWidget);
         label->setObjectName("label");
-        label->setFont(font3);
+        label->setFont(font);
         label->setAlignment(Qt::AlignCenter);
 
         result_show_layout->addWidget(label, 2, 0, 1, 2);
 
-        comparer_mover_checkbox = new QCheckBox(widget);
+        comparer_mover_checkbox = new QCheckBox(layoutWidget);
         comparer_mover_checkbox->setObjectName("comparer_mover_checkbox");
         sizePolicy.setHeightForWidth(comparer_mover_checkbox->sizePolicy().hasHeightForWidth());
         comparer_mover_checkbox->setSizePolicy(sizePolicy);
@@ -449,12 +457,12 @@ public:
 
         result_show_layout->addWidget(comparer_mover_checkbox, 0, 0, 1, 1);
 
-        result_sort_select = new QComboBox(widget);
+        result_sort_select = new QComboBox(layoutWidget);
         result_sort_select->setObjectName("result_sort_select");
 
         result_show_layout->addWidget(result_sort_select, 3, 0, 1, 1);
 
-        result_show = new QTextBrowser(widget);
+        result_show = new QTextBrowser(layoutWidget);
         result_show->setObjectName("result_show");
         QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Maximum);
         sizePolicy6.setHorizontalStretch(0);
@@ -465,12 +473,12 @@ public:
 
         result_show_layout->addWidget(result_show, 4, 0, 1, 2);
 
-        result_sort_select_open_button = new QPushButton(widget);
+        result_sort_select_open_button = new QPushButton(layoutWidget);
         result_sort_select_open_button->setObjectName("result_sort_select_open_button");
 
         result_show_layout->addWidget(result_sort_select_open_button, 3, 1, 1, 1);
 
-        line_2 = new QFrame(widget);
+        line_2 = new QFrame(layoutWidget);
         line_2->setObjectName("line_2");
         line_2->setFrameShape(QFrame::HLine);
         line_2->setFrameShadow(QFrame::Sunken);
@@ -488,7 +496,7 @@ public:
         sort_button_show_layout = new QGridLayout();
         sort_button_show_layout->setSpacing(8);
         sort_button_show_layout->setObjectName("sort_button_show_layout");
-        algorithm_button = new QPushButton(widget);
+        algorithm_button = new QPushButton(layoutWidget);
         algorithm_button->setObjectName("algorithm_button");
         sizePolicy.setHeightForWidth(algorithm_button->sizePolicy().hasHeightForWidth());
         algorithm_button->setSizePolicy(sizePolicy);
@@ -496,7 +504,7 @@ public:
 
         sort_button_show_layout->addWidget(algorithm_button, 0, 0, 1, 1);
 
-        mutil_thread_checkbox = new QCheckBox(widget);
+        mutil_thread_checkbox = new QCheckBox(layoutWidget);
         mutil_thread_checkbox->setObjectName("mutil_thread_checkbox");
         sizePolicy.setHeightForWidth(mutil_thread_checkbox->sizePolicy().hasHeightForWidth());
         mutil_thread_checkbox->setSizePolicy(sizePolicy);
@@ -505,7 +513,7 @@ public:
 
         sort_button_show_layout->addWidget(mutil_thread_checkbox, 0, 1, 1, 2);
 
-        sort_generate_data_button = new QPushButton(widget);
+        sort_generate_data_button = new QPushButton(layoutWidget);
         sort_generate_data_button->setObjectName("sort_generate_data_button");
         sizePolicy.setHeightForWidth(sort_generate_data_button->sizePolicy().hasHeightForWidth());
         sort_generate_data_button->setSizePolicy(sizePolicy);
@@ -513,7 +521,7 @@ public:
 
         sort_button_show_layout->addWidget(sort_generate_data_button, 1, 0, 1, 2);
 
-        sort_launch_button = new QPushButton(widget);
+        sort_launch_button = new QPushButton(layoutWidget);
         sort_launch_button->setObjectName("sort_launch_button");
         sizePolicy.setHeightForWidth(sort_launch_button->sizePolicy().hasHeightForWidth());
         sort_launch_button->setSizePolicy(sizePolicy);
@@ -521,7 +529,7 @@ public:
 
         sort_button_show_layout->addWidget(sort_launch_button, 2, 0, 1, 1);
 
-        algorithm_message_show = new QTextBrowser(widget);
+        algorithm_message_show = new QTextBrowser(layoutWidget);
         algorithm_message_show->setObjectName("algorithm_message_show");
         algorithm_message_show->setTabChangesFocus(false);
         algorithm_message_show->setUndoRedoEnabled(false);
@@ -530,7 +538,7 @@ public:
 
         sort_button_show_layout->addWidget(algorithm_message_show, 3, 0, 1, 3);
 
-        less_checkbox = new QCheckBox(widget);
+        less_checkbox = new QCheckBox(layoutWidget);
         less_checkbox->setObjectName("less_checkbox");
         sizePolicy.setHeightForWidth(less_checkbox->sizePolicy().hasHeightForWidth());
         less_checkbox->setSizePolicy(sizePolicy);
@@ -539,7 +547,7 @@ public:
 
         sort_button_show_layout->addWidget(less_checkbox, 2, 2, 1, 1);
 
-        data_build_checkbox = new QCheckBox(widget);
+        data_build_checkbox = new QCheckBox(layoutWidget);
         data_build_checkbox->setObjectName("data_build_checkbox");
         sizePolicy.setHeightForWidth(data_build_checkbox->sizePolicy().hasHeightForWidth());
         data_build_checkbox->setSizePolicy(sizePolicy);
@@ -549,7 +557,7 @@ public:
 
         sort_button_show_layout->addWidget(data_build_checkbox, 1, 2, 1, 1);
 
-        greater_checkbox = new QCheckBox(widget);
+        greater_checkbox = new QCheckBox(layoutWidget);
         greater_checkbox->setObjectName("greater_checkbox");
         sizePolicy.setHeightForWidth(greater_checkbox->sizePolicy().hasHeightForWidth());
         greater_checkbox->setSizePolicy(sizePolicy);
@@ -589,8 +597,9 @@ public:
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Times New Roman'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+"</style></head><body style=\" font-family:'Times New Roman'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p></body></html>", nullptr));
+        data_input_random_button->setText(QCoreApplication::translate("MainWindow", "Random", nullptr));
         data_input_uniform_button->setText(QCoreApplication::translate("MainWindow", "Uniform", nullptr));
         data_input_gaussian_button->setText(QCoreApplication::translate("MainWindow", "Gaussian", nullptr));
         data_input_poisson_button->setText(QCoreApplication::translate("MainWindow", "Poisson", nullptr));
@@ -626,6 +635,14 @@ public:
         timer_checkbox->setText(QCoreApplication::translate("MainWindow", "Timer", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "OPEN RESULT REPORT", nullptr));
         comparer_mover_checkbox->setText(QCoreApplication::translate("MainWindow", "Comparer and Mover", nullptr));
+        result_show->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Microsoft YaHei UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         result_sort_select_open_button->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
         algorithm_button->setText(QCoreApplication::translate("MainWindow", "Algorithm", nullptr));
         mutil_thread_checkbox->setText(QCoreApplication::translate("MainWindow", "Multithreading", nullptr));

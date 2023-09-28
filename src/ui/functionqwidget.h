@@ -14,7 +14,7 @@ public:
     double lambda_e = 1;
     double mean = 0;
     double stddev = 1;
-    int distribution = 3;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian
+    int distribution = 4;   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian, 4: random
 
     double horizontal_slider_value = 35;
     double vertical_slider_value = 25;

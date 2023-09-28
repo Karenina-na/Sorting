@@ -16,7 +16,7 @@ public:
                                 double lambda_p, double lambda_e, double mean, double stddev, int distribution);
     ~DistributionWindow() override;
 
-    int distribution{};   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian
+    int distribution{};   // 0: uniform, 1: poisson, 2: exponential, 3: gaussian, 4: random
     bool change = false;
 
     // parameters

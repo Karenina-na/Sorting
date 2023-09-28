@@ -489,7 +489,7 @@ void structure::BidirectionalLinkList<T>::build(){
         return;
     }
     delete[] arr;
-    arr = new BidirectionalLinkListNode<T>*[length];
+    arr = new BidirectionalLinkListNode<T> * [length];
     BidirectionalLinkListNode<T> *node = head;
     for (int i = 0; i < length; i++) {
         arr[i] = node;

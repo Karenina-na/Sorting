@@ -8,6 +8,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <vector>
+#include "reportwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->algorithm_message_show->setText(
             "welcome to use this program"
+    );
+
+    ui->result_show->setText(
+            "Result show"
     );
 
     // show param
@@ -35,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->data_input_poisson_button, &QPushButton::clicked, this, &MainWindow::on_data_input_poisson_button_clicked);
     connect(ui->data_input_exponential_button, &QPushButton::clicked, this, &MainWindow::on_data_input_exponential_button_clicked);
     connect(ui->data_input_gaussian_button, &QPushButton::clicked, this, &MainWindow::on_data_input_gaussian_button_clicked);
+    connect(ui->data_input_random_button, &QPushButton::clicked, this, &MainWindow::on_data_input_random_button_clicked);
 
     // QSideBar
     connect(ui->data_input_distribution_horizontal_slider, &QSlider::valueChanged, this, &MainWindow::on_data_input_distribution_horizontal_slider_valueChanged);
@@ -67,6 +73,10 @@ MainWindow::MainWindow(QWidget *parent)
     // launch
     connect(ui->sort_launch_button, &QPushButton::clicked, this, &MainWindow::on_launch_button_clicked);
     connect(this, &MainWindow::finish_signal, this, &MainWindow::finish_slot);
+
+    // open report
+    connect(ui->result_sort_select_open_button, &QPushButton::clicked, this, &MainWindow::on_open_report_button_clicked);
+    connect(ui->result_show, &QTextEdit::textChanged, this, &MainWindow::on_result_show_value_change);
 }
 
 MainWindow::~MainWindow()
@@ -261,6 +271,52 @@ void MainWindow::on_data_input_gaussian_button_clicked() {
                     + "max: " + QString::number(this->max) + "\n"
                     + "mean: " + QString::number(this->mean) + "\n"
                     + "stddev: " + QString::number(this->stddev) + "\n";
+    ui->data_input_parameter_show->setText(param);
+}
+
+// random button
+void MainWindow::on_data_input_random_button_clicked() {
+    auto* distributionWindow = new DistributionWindow(this, first_flag,
+                                                      max, min, size, seed,
+                                                      lambda_p, lambda_e, mean, stddev, 4);
+    distributionWindow->show();
+    distributionWindow->exec();
+
+    first_flag = false;
+
+    // store parameters
+    if (distributionWindow->change){
+        seed = distributionWindow->seed;
+        size = distributionWindow->size;
+        min = distributionWindow->min;
+        max = distributionWindow->max;
+        lambda_p = distributionWindow->lambda_p;
+        lambda_e = distributionWindow->lambda_e;
+        mean = distributionWindow->mean;
+        stddev = distributionWindow->stddev;
+        distribution = distributionWindow->distribution;
+
+        // recreate functionqwidget
+        ui->data_input_distribution_preview->min = min;
+        ui->data_input_distribution_preview->max = max;
+        ui->data_input_distribution_preview->lambda_p = lambda_p;
+        ui->data_input_distribution_preview->lambda_e = lambda_e;
+        ui->data_input_distribution_preview->mean = mean;
+        ui->data_input_distribution_preview->stddev = stddev;
+        ui->data_input_distribution_preview->distribution = distribution;
+        recreate_functionqwidget();
+
+        ui->algorithm_message_show->setText(
+                ui->algorithm_message_show->toPlainText() + "\n" +
+                "save parameters random"
+        );
+    }
+
+    // show param
+    QString param = "seed: " + QString::number(this->seed) + "\n"
+                    + "size: " + QString::number(this->size) + "\n"
+                    + "min: " + QString::number(this->min) + "\n"
+                    + "max: " + QString::number(this->max);
     ui->data_input_parameter_show->setText(param);
 }
 
@@ -481,16 +537,26 @@ void MainWindow::on_sort_generate_data_button_clicked() {
                         "mean: " + QString::number(mean) + ", " + "stddev: " + QString::number(stddev) + ")"
                 );
                 break;
+            case 4: // random
+                data = new std::vector<int>();
+                for (int i = 0; i < size; i++){
+                    data->push_back(rand() % (max - min + 1) + min);
+                }
+                ui->algorithm_message_show->setText(
+                        ui->algorithm_message_show->toPlainText() + "\n" +
+                        "generate data - random - "
+                        "(" + "min: " + QString::number(min) + ", " + "max: " + QString::number(max) + ", " +
+                        "size: " + QString::number(size) + ", " + "seed: " + QString::number(seed) + ")"
+                );
+                break;
         }
 
         // create linklist
-        list = new structure::BidirectionalLinkList<int>();
+        this->list = new structure::BidirectionalLinkList<int>();
         for (int d : *data){
-            list->insertAtTail(d);
+            this->list->insertAtTail(d);
         }
 
-        // delete
-        delete data;
     }
 
     // load data
@@ -504,7 +570,7 @@ void MainWindow::on_sort_generate_data_button_clicked() {
             return;
         }
 
-        list = new structure::BidirectionalLinkList<int>();
+        this->list = new structure::BidirectionalLinkList<int>();
 
         // read data
         QTextStream in(&file);
@@ -557,30 +623,37 @@ void MainWindow::on_launch_button_clicked() {
         switch (distribution){
             case 0: // uniform
                 report->set_distribution(
-                        "uniform", 0,
+                        "uniform",
                         {"min", "max", "seed"},
                         {(double)min, (double)max, (double)seed}
                         );
                 break;
             case 1: // poisson
                 report->set_distribution(
-                        "poisson", 1,
+                        "poisson",
                         {"min", "max", "seed", "lambda"},
                         {(double)min, (double)max, (double)seed, lambda_p}
                         );
                 break;
             case 2: // exponential
                 report->set_distribution(
-                        "exponential", 2,
+                        "exponential",
                         {"min", "max", "seed", "lambda"},
                         {(double)min, (double)max, (double)seed, lambda_e}
                         );
                 break;
             case 3: // gaussian
                 report->set_distribution(
-                        "gaussian", 3,
+                        "gaussian",
                         {"min", "max", "seed", "mean", "stddev"},
                         {(double)min, (double)max, (double)seed, mean, stddev}
+                        );
+                break;
+            case 4: // random
+                report->set_distribution(
+                        "random",
+                        {"min", "max", "seed"},
+                        {(double)min, (double)max, (double)seed}
                         );
                 break;
         }
@@ -604,57 +677,62 @@ void MainWindow::on_launch_button_clicked() {
     }
     switch (algorithm){
         case 0: // insertion sort
-            report->set_message("insert sort", size,
+            report->set_message("insert sort", 0, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 1: // bubble sort
-            report->set_message("bubble sort", size,
+            report->set_message("bubble sort", 1, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 2: // selection sort
-            report->set_message("select sort", size,
+            report->set_message("select sort", 2, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 3: // shell sort
-            report->set_message("shell sort", size,
+            report->set_message("shell sort", 3, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 4: // quick sort
-            report->set_message("quick sort", size,
+            report->set_message("quick sort", 4, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 5: // heap sort
-            report->set_message("heap sort", size,
+            report->set_message("heap sort", 5, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 6: // radix sort
-            report->set_message("radix sort", size,
+            report->set_message("radix sort", 6, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 7: // merge sort
-            report->set_message("merge sort", size,
+            report->set_message("merge sort", 7, size,
                                 filename,
                                 file_path.toStdString());
             break;
         case 8: // my sort
-            report->set_message("algorithm sort", size,
+            report->set_message("algorithm sort", 8, size,
                                 filename,
                                 file_path.toStdString());
             break;
     }
 
+    // build
+    if (ui->data_build_checkbox->isChecked()){
+        list->build();
+    }
+
+
     // run
     new std::thread(&MainWindow::run_launch, this, report, list,
                     ui->timer_checkbox->isChecked(),
                     ui->comparer_mover_checkbox->isChecked(),
-                    ui->data_build_checkbox->isChecked(),
                     ui->greater_checkbox->isChecked(),
                     ui->mutil_thread_checkbox->isChecked(),
                     task_num
@@ -670,19 +748,16 @@ void MainWindow::on_launch_button_clicked() {
 
     // init
     this->algorithm = -1;
-    generate_flag = false;
     this->task_num++;
 }
 
 void MainWindow::run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
-                            bool timer, bool compare_and_move, bool build, bool compare, bool multi_thread, int task) {
+                            bool timer, bool compare_and_move, bool compare, bool multi_thread, int task) {
     algorithm::Algorithm<structure::BidirectionalLinkList<int>, int> algorithm{};
     algorithm::Evaluate evaluate;
 
     evaluate.flag = compare_and_move;
-    if (build){
-        list->build();
-    }
+
     algorithm.use_thread = multi_thread;
     algorithm.max_deep = 8;
 
@@ -692,63 +767,63 @@ void MainWindow::run_launch(structure::Report<int>* report, structure::Bidirecti
             if (compare){
                 algorithm.insertionSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.insertionSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.insertionSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 1: // bubble sort
             if (compare){
                 algorithm.bubbleSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.bubbleSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.bubbleSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 2: // selection sort
             if (compare){
                 algorithm.selectionSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.selectionSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.selectionSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 3: // shell sort
             if (compare){
                 algorithm.shellSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.shellSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.shellSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 4: // quick sort
             if (compare){
                 algorithm.quickSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.quickSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.quickSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 5: // heap sort
             if (compare){
                 algorithm.heapSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.heapSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.heapSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 6: // radix sort
             if (compare){
                 algorithm.radixSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.radixSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.radixSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 7: // merge sort
             if (compare){
                 algorithm.mergeSort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.mergeSort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.mergeSort(*list, algorithm::Compare::less, evaluate);
             }
             break;
         case 8: // my sort
             if (compare){
                 algorithm.sort(*list, algorithm::Compare::greater, evaluate);
             }else{
-                algorithm.sort(*list, algorithm::Compare::greater, evaluate);
+                algorithm.sort(*list, algorithm::Compare::less, evaluate);
             }
             break;
     }
@@ -767,8 +842,39 @@ void MainWindow::run_launch(structure::Report<int>* report, structure::Bidirecti
 }
 
 void MainWindow::finish_slot(int task_num) {
-    ui->algorithm_message_show->setText(
-            ui->algorithm_message_show->toPlainText() + "\n" +
-            "finish sort thread " + QString::number(task_num)
+    // get report
+    auto* report = reports[task_num];
+    ui->result_show->setText(
+            ui->result_show->toPlainText() + "\n" +
+            "finish sort thread " + QString::number(task_num) + "\n" +
+            "time: " + QString::number(report->time) + "ms" + "\n" +
+            "comp: " + QString::number(report->comp_count) + "\n" +
+            "move: " + QString::number(report->move_count) + "\n" +
+            "----------------------"
     );
+
+    if (report->flag){
+        report->file_name = "generate";
+    }
+
+    // 在下拉栏选择框中添加选项
+    std::string name = "task " + std::to_string(task_num) + " - " + report->algorithm_name;
+    ui->result_sort_select->addItem(QString::fromStdString(name), task_num);
 }
+
+// open report
+void MainWindow::on_open_report_button_clicked(){
+    // find report
+    int index = ui->result_sort_select->currentIndex();
+    int task = ui->result_sort_select->itemData(index).toInt();
+
+    // open report window
+    auto* reportWindow = new ReportWindow(this, reports[task]);
+    reportWindow->show();
+    reportWindow->exec();
+}
+
+void MainWindow::on_result_show_value_change() {
+    this->ui->result_show->moveCursor(QTextCursor::End);
+}
+

@@ -41,8 +41,9 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
     // 三数取中
     int mid = threeGetMid(arr, begin, (begin + end) / 2, end, compare, evaluate);
 
-    // 寄存key值
+    // 寄存key值，交换到第一个位置
     NT temp = arr[mid];
+    arr[mid] = arr[begin];
     int i = begin, j = end;
 
     while (i < j) {

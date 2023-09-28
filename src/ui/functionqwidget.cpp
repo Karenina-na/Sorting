@@ -128,6 +128,8 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
                 points.append(QPointF(x * one_px_x, y * one_px_y));
             }
             break;
+        case 4: // random
+            break;
     }
 
     // min max 两条竖直线
@@ -139,6 +141,10 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
     painter.drawLine(max * one_px_x, -height / 2, max * one_px_x, height / 2);
     painter.drawText(min * one_px_x - 10, height / 2 - 20, QString::fromStdString("min"));
     painter.drawText(max * one_px_x - 10, height / 2 - 20, QString::fromStdString("max"));
+
+    if (distribution == 4){
+        return;
+    }
 
     // 赛贝尔曲线
     pan.setColor(Qt::blue);
