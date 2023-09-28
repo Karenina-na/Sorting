@@ -80,13 +80,18 @@ void FunctionQWidget::paintEvent(QPaintEvent *event)
     painter.drawText(max_x_num * one_px_x - 15, 12, QString::fromStdString("X"));
     painter.drawText(-12, - max_y_num * one_px_y + 15, QString::fromStdString("Y"));
 
-    // 输出点数量信息与赛贝尔曲线名称
+    // 输出点数量信息、赛贝尔曲线名称与图例
     pan.setColor(Qt::black);
     pan.setStyle(Qt::SolidLine);
     pan.setWidth(1);
     painter.setPen(pan);
     painter.drawText(-width / 2 + 10, -height / 2 + 20, QString::fromStdString("Point Num: " + QString::number(point_num).toStdString()));
     painter.drawText(-35, height / 2 - 10, QString::fromStdString("Bezier Curve"));
+    // |___|
+    painter.drawLine(-width / 2 + 10, -height / 2 + 35, -width / 2 + 30, -height / 2 + 35);
+    painter.drawLine(-width / 2 + 10, -height / 2 + 30, -width / 2 + 10, -height / 2 + 35);
+    painter.drawLine(-width / 2 + 30, -height / 2 + 30, -width / 2 + 30, -height / 2 + 35);
+    painter.drawText(-width / 2 + 35, -height / 2 + 35, QString::fromStdString("10"));
 
     // 绘制函数
     pan.setColor(Qt::red);
