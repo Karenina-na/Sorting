@@ -104,12 +104,7 @@ public:
         MainWindow->setMouseTracking(false);
         MainWindow->setContextMenuPolicy(Qt::DefaultContextMenu);
         QIcon icon;
-        QString iconThemeName = QString::fromUtf8("accessories-calculator");
-        if (QIcon::hasThemeIcon(iconThemeName)) {
-            icon = QIcon::fromTheme(iconThemeName);
-        } else {
-            icon.addFile(QString::fromUtf8("."), QSize(), QIcon::Normal, QIcon::Off);
-        }
+        icon.addFile(QString::fromUtf8(":/res/logo.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         MainWindow_Widget = new QWidget(MainWindow);
         MainWindow_Widget->setObjectName("MainWindow_Widget");

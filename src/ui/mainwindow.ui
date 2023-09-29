@@ -38,8 +38,8 @@
    <string>MainWindow</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="accessories-calculator">
-    <normaloff>.</normaloff>.</iconset>
+   <iconset resource="../../res/logo.qrc">
+    <normaloff>:/res/logo.ico</normaloff>:/res/logo.ico</iconset>
   </property>
   <widget class="QWidget" name="MainWindow_Widget">
    <property name="enabled">
@@ -895,6 +895,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../res/logo.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -16,6 +16,8 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 qt_standard_project_setup()
 # 将ui文件夹下的所有文件.cpp .h .ui添加到UI_FILES变量中
 file(GLOB UI_FILES "src/ui/*.cpp" "src/ui/*.h" "src/ui/*.ui")
+# qrc
+qt_add_resources(QRC_FILES res/logo.qrc)
 
 # main
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
@@ -26,6 +28,8 @@ qt_add_executable(${PROJECT_NAME}
         src/ui/mainwindow.h
         src/ui/mainwindow.ui
         ${UI_FILES}
+        logo.rc
+        ${QRC_FILES}
 )
 add_subdirectory(src) # src/CMakeLists.txt
 
