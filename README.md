@@ -43,29 +43,34 @@ git clone git@github.com:Karenina-na/Deep-Learning-Framework.git
 
 6.Build the project
 
-windows - MinGW - make
+windows - MinGW - ninja
 
 ```terminal
 mkdir build
 cd build
-cmake -G "MinGW Makefiles" ..
-cmake --build .
-```
-
-windows - ninja
-
-```terminal
-mkdir build
-cd build
-cmake -G "Ninja" ..
-cmake --build .
+cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -B ./cmake-build-release ..
+cmake --build ./cmake-build-release --target Sorting_Algorithm_Interface_Framework -- -j 14
 ```
 
 7.Run by double-clicking the executable file in the build directory.
 
 ```terminal
-./bin/Sorting-Algorithm-Interface-Framework
+./cmake-build-release/Sorting_Algorithm_Interface_Framework.exe
 ```
+
+8.If you want to build for release, you can use the following command:
+
+open Qt (Mingw) terminal
+
+```terminal
+cd ./cmake-build-release
+mkdir release
+windeployqt Sorting_Algorithm_Interface_Framework.exe -dir ./release
+```
+
+then copy the executable file to the release directory
+
+the release directory is ready to use
 
 ## 💻 Technology Stack
 
@@ -76,6 +81,7 @@ In our project, we have utilized a variety of deep learning frameworks and relat
 - make  4.3
 - Qt    5.15.2
 - cmake 3.25.3
+- MinGW 11.2.0 (64-bit)
 
 ## 🤝 Contribution Guide
 
