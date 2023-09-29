@@ -23,7 +23,7 @@ void algorithm::Algorithm<T, NT>::sort(T &arr, bool (*compare)(NT, NT), algorith
     }
 
     // 如果数组元素小于20个，使用插入排序
-    if (arr.size() < 20) {
+    if (arr.size() < 0) {
         sortInsertion(arr, 0, arr.size() - 1, *compare, evaluate);
         evaluate.end();
         return;
@@ -34,7 +34,7 @@ void algorithm::Algorithm<T, NT>::sort(T &arr, bool (*compare)(NT, NT), algorith
     evaluate.end();
 }
 
-// 快速排序
+// 快速排序 (优化)
 template<typename T, typename NT>
 void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&compare)(NT, NT), algorithm::Evaluate& evaluate, int deep) {
 
@@ -46,10 +46,21 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
     arr[mid] = arr[begin];
     int i = begin, j = end;
 
+    // 聚集元素指针
+    int L = begin, R = end;
+
     while (i < j) {
 
         // 找到第一个比 key 大/小的元素
         while (i != j && (compare(temp, arr[j]) || temp == arr[j])){
+
+            // 右聚集
+            if (temp == arr[j]) {   // 将末尾元素放入j
+                evaluate.addMoveCount(1);
+                arr[j] = arr[R];
+                R--;
+            }
+
             evaluate.addCompCount(1);
             j--;
         }
@@ -59,6 +70,14 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
 
         // 找到第一个比 key 小/大的元素
         while (i != j && (compare(arr[i], temp) || temp == arr[j])) {
+
+            // 左聚集
+            if (temp == arr[i]) {   // 将首元素放入i
+                evaluate.addMoveCount(1);
+                arr[i] = arr[L];
+                L++;
+            }
+
             evaluate.addCompCount(1);
             i++;
         }
@@ -72,30 +91,52 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
     arr[i] = temp;
     evaluate.addMoveCount(2);
 
+    // 左聚集处理，L 前全是 key，倒序
+    L--;
+    i--;
+    while (L >= begin) {
+        evaluate.addMoveCount(1);
+        arr[L] = arr[i];
+        arr[i] = temp;
+        L--;
+        i--;
+    }
+
+    // 右聚集处理，R 后全是 key，正序
+    R++;
+    j++;
+    while (R <= end) {
+        evaluate.addMoveCount(1);
+        arr[R] = arr[j];
+        arr[j] = temp;
+        R++;
+        j++;
+    }
+
     // 左边递归
     bool left = false, right = false;
-    if (begin < i - 1){
+    if (begin < i){
         // 小数组插入排序
-        if (i - 1 - begin < 20) {
-            sortInsertion(arr, begin, i - 1, compare, evaluate);
+        if (i - begin < 24) {
+            sortInsertion(arr, begin, i, compare, evaluate);
         } else {
             if (deep < max_deep && use_thread) {
                 left = true;
             } else {
-                sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
+                sortStack(arr, begin, i, compare, evaluate, deep + 1);
             }
         }
     }
     // 右边递归
-    if (i + 1 < end){
+    if (j < end){
         // 小数组插入排序
-        if (end - i - 1 < 20) {
-            sortInsertion(arr, i + 1, end, compare, evaluate);
+        if (end - j < 24) {
+            sortInsertion(arr, j, end, compare, evaluate);
         } else {
             if (deep < max_deep && use_thread) {
                 right = true;
             } else {
-                sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
+                sortStack(arr, j, end, compare, evaluate, deep + 1);
             }
         }
     }
@@ -103,21 +144,21 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
     // 并发
     if (left && right) {
         std::thread t1([&]{
-            sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
+            sortStack(arr, begin, i, compare, evaluate, deep + 1);
         });
         std::thread t2([&]{
-            sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
+            sortStack(arr, j, end, compare, evaluate, deep + 1);
         });
         t1.join();
         t2.join();
     } else if (left) {
         std::thread t1([&]{
-            sortStack(arr, begin, i - 1, compare, evaluate, deep + 1);
+            sortStack(arr, begin, i, compare, evaluate, deep + 1);
         });
         t1.join();
     } else if (right) {
         std::thread t2([&]{
-            sortStack(arr, i + 1, end, compare, evaluate, deep + 1);
+            sortStack(arr, j, end, compare, evaluate, deep + 1);
         });
         t2.join();
     }
