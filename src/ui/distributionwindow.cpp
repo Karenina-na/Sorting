@@ -11,6 +11,7 @@ DistributionWindow::DistributionWindow(QWidget *parent, bool first_change,
         , ui(new Ui::DistributionWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Distribution Generator");
     this->distribution = distribution;
     ui->function_show->distribution = distribution;
     recreate_functionqwidget();

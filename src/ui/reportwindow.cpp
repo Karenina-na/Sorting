@@ -5,11 +5,13 @@
 #include "reportwindow.h"
 #include "ui_reportwindow.h"
 
-ReportWindow::ReportWindow(QWidget *parent, structure::Report<int>* report)
+ReportWindow::ReportWindow(QWidget *parent, structure::Report<int>* report, int task_num)
         : QDialog(parent)
         , ui(new Ui::ReportWindow){
     ui->setupUi(this);
+    this->setWindowTitle("Report");
     this->report = report;
+    ui->label->setText("Task " + QString::number(task_num));
 
     // set value
     time_t t = report->date;

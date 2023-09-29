@@ -869,7 +869,7 @@ void MainWindow::on_open_report_button_clicked(){
     int task = ui->result_sort_select->itemData(index).toInt();
 
     // open report window
-    auto* reportWindow = new ReportWindow(this, reports[task]);
+    auto* reportWindow = new ReportWindow(this, reports[task], task);
     reportWindow->show();
     reportWindow->exec();
 }

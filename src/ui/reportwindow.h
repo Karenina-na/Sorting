@@ -11,7 +11,7 @@ class ReportWindow : public QDialog
 {
 Q_OBJECT
 public:
-    explicit ReportWindow(QWidget *parent, structure::Report<int>* report);
+    explicit ReportWindow(QWidget *parent, structure::Report<int>* report, int task_num);
     ~ReportWindow() override;
 
 private:
