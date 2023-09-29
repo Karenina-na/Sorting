@@ -860,6 +860,7 @@ void MainWindow::finish_slot(int task_num) {
     // 在下拉栏选择框中添加选项
     std::string name = "task " + std::to_string(task_num) + " - " + report->algorithm_name;
     ui->result_sort_select->addItem(QString::fromStdString(name), task_num);
+    this->ui->result_sort_select->setCurrentIndex(this->ui->result_sort_select->count() - 1);
 }
 
 // open report
