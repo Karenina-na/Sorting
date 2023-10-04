@@ -81,6 +81,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete list;
+    for (auto i : reports){
+        delete i;
+    }
     delete ui;
 }
 
@@ -128,6 +132,8 @@ void MainWindow::on_data_input_uniform_button_clicked() {
                     + "min: " + QString::number(this->min) + "\n"
                     + "max: " + QString::number(this->max) + "\n";
     ui->data_input_parameter_show->setText(param);
+
+    delete distributionWindow;
 }
 
 // poisson button
@@ -485,13 +491,16 @@ void MainWindow::on_my_sort_button_clicked() {
 
 // generate data
 void MainWindow::on_sort_generate_data_button_clicked() {
+    // clear
+    delete this->list;
+
     // generate data
     if (ui->data_generator_sort_checkbox->isChecked()){
-        std::vector<int>* data;
-        distribution::Uniform<int>* u;
-        distribution::Poisson<int>* p;
-        distribution::Exponential<int>* e;
-        distribution::Gaussian<int>* g;
+        std::vector<int>* data = nullptr;
+        distribution::Uniform<int>* u = nullptr;
+        distribution::Poisson<int>* p = nullptr;
+        distribution::Exponential<int>* e = nullptr;
+        distribution::Gaussian<int>* g = nullptr;
         // sort
         switch (distribution){
             case 0: // uniform
@@ -551,12 +560,18 @@ void MainWindow::on_sort_generate_data_button_clicked() {
                 break;
         }
 
+        delete e;
+        delete g;
+        delete p;
+        delete u;
+
         // create linklist
         this->list = new structure::BidirectionalLinkList<int>();
         for (int d : *data){
             this->list->insertAtTail(d);
         }
 
+        delete data;
     }
 
     // load data
@@ -839,6 +854,7 @@ void MainWindow::run_launch(structure::Report<int>* report, structure::Bidirecti
     report->set_result(result);
 
     emit finish_signal(task);
+
 }
 
 void MainWindow::finish_slot(int task_num) {
@@ -873,6 +889,7 @@ void MainWindow::on_open_report_button_clicked(){
     auto* reportWindow = new ReportWindow(this, reports[task], task);
     reportWindow->show();
     reportWindow->exec();
+    delete reportWindow;
 }
 
 void MainWindow::on_result_show_value_change() {

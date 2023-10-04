@@ -73,4 +73,6 @@ void algorithm::Algorithm<T, NT>::merge(T &arr, int begin1, int end1, int begin2
         evaluate.addMoveCount(1);
         arr[begin2 + l] = temp[end1 - begin1 + 1 + l];
     }
+
+    delete[] temp;
 }
