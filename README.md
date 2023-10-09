@@ -18,6 +18,7 @@ The project has realized the following sorting algorithms:
 - heapsort
 - radix sort
 - merge sort
+- sort - witch is our own algorithm
 
 These algorithms have been executed on datasets of considerable size, encompassing ordered data, reversed data, as well as random sequences generated from uniform, Gaussian, and Poisson distributions.
 
