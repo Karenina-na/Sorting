@@ -364,6 +364,8 @@ void MainWindow::on_data_loader_button_clicked(){
     QStringList list = line.split(",");
     std::vector<int> data;
     for (QString i : list){
+        if (i == "") continue;
+        i = i.trimmed();
         data.push_back(i.toInt());
     }
     file.close();
@@ -592,6 +594,8 @@ void MainWindow::on_sort_generate_data_button_clicked() {
         QString line = in.readLine();
         QStringList l = line.split(",");
         for (QString d : l){
+            if (d == "") continue;
+            d = d.trimmed();
             this->list->insertAtTail(d.toInt());
         }
 
@@ -764,6 +768,7 @@ void MainWindow::on_launch_button_clicked() {
     // init
     this->algorithm = -1;
     this->task_num++;
+    generate_flag = false;
 }
 
 void MainWindow::run_launch(structure::Report<int>* report, structure::BidirectionalLinkList<int> *list,
@@ -904,4 +909,3 @@ void MainWindow::on_open_report_button_clicked(){
 void MainWindow::on_result_show_value_change() {
     this->ui->result_show->moveCursor(QTextCursor::End);
 }
-
