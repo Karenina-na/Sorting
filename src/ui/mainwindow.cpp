@@ -881,6 +881,15 @@ void MainWindow::finish_slot(int task_num) {
 
 // open report
 void MainWindow::on_open_report_button_clicked(){
+    // check
+    if (this->ui->result_sort_select->count() == 0){
+        ui->algorithm_message_show->setText(
+                ui->algorithm_message_show->toPlainText() + "\n" +
+                "error: no report"
+        );
+        return;
+    }
+
     // find report
     int index = ui->result_sort_select->currentIndex();
     int task = ui->result_sort_select->itemData(index).toInt();
