@@ -69,7 +69,7 @@ void algorithm::Algorithm<T, NT>::sortStack(T &arr, int begin, int end, bool (&c
         arr[i] = arr[j];
 
         // 找到第一个比 key 小/大的元素
-        while (i != j && (compare(arr[i], temp) || temp == arr[j])) {
+        while (i != j && (compare(arr[i], temp) || temp == arr[i])) {
 
             // 左聚集
             if (temp == arr[i]) {   // 将首元素放入i
