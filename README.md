@@ -84,6 +84,12 @@ In our project, we have utilized a variety of deep learning frameworks and relat
 - cmake 3.25.3
 - MinGW 11.2.0 (64-bit)
 
+## 📈 Performance
+<p align="center">
+    <img src="./res/mainwindow.png" style="width: 50%" alt="mainwindow" align="left"/>
+    <img src="./res/functionwindow.png" style="width: 50%" alt="functionwindow" align="right"/>
+</p>
+
 ## 🤝 Contribution Guide
 
 We greatly appreciate your willingness to contribute to our project! If you have any valuable models or paper codes to share, or if you have identified any errors or areas for improvement within the codebase, you can submit your contributions through the following methods:
