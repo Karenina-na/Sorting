@@ -86,8 +86,8 @@ In our project, we have utilized a variety of deep learning frameworks and relat
 
 ## 📈 Performance
 <div style="width: 100%">
-    <img src="./res/mainwindow.png" style="width: 50%" alt="mainwindow" align="left"/>
-    <img src="./res/functionwindow.png" style="width: 50%" alt="functionwindow" align="right"/>
+    <img src="./res/mainwindow.png" style="width: 48%" alt="mainwindow" align="left"/>
+    <img src="./res/functionwindow.png" style="width: 48%" alt="functionwindow" align="right"/>
 </div>
 
 ## 🤝 Contribution Guide
